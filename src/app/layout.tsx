@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { AnimationsProvider } from '@/components/animations-provider';
 
 export const metadata: Metadata = {
   title: 'Spark Mentorship',
@@ -23,7 +24,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        {children}
+        <AnimationsProvider>
+          {children}
+        </AnimationsProvider>
         <Toaster />
       </body>
     </html>

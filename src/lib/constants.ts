@@ -2,10 +2,6 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Leaf,
   Briefcase,
-  Landmark,
-  Megaphone,
-  Receipt,
-  Lightbulb,
   Users,
   HeartHandshake,
   Smile,
@@ -27,28 +23,8 @@ export const services: Service[] = [
   },
   {
     title: 'Business Consultancy',
-    description: 'Get expert advice to scale your business and navigate challenges.',
+    description: 'Expert advice including financial literacy, digital marketing, taxation & returns filing, and creativity & innovation.',
     icon: Briefcase,
-  },
-  {
-    title: 'Financial Literacy',
-    description: 'Learn to manage your money, invest wisely, and secure your future.',
-    icon: Landmark,
-  },
-  {
-    title: 'Digital Marketing',
-    description: 'Expand your reach and connect with customers online.',
-    icon: Megaphone,
-  },
-  {
-    title: 'Taxation & Returns Filing',
-    description: 'Stay compliant and optimize your tax strategy with our help.',
-    icon: Receipt,
-  },
-  {
-    title: 'Creativity & Innovation',
-    description: 'Unlock your potential and turn brilliant ideas into reality.',
-    icon: Lightbulb,
   },
   {
     title: 'Mentorship & Coaching',
@@ -66,12 +42,12 @@ export const services: Service[] = [
     icon: Smile,
   },
   {
-    title: 'Rehabilitation & Addiction Counseling',
+    title: 'Rehabilitation & Substance Addiction Counseling',
     description: 'A supportive path to recovery and a new beginning.',
     icon: HeartPulse,
   },
   {
-    title: 'Internships & Apprenticeships',
+    title: 'Internships & Apprenticeship Attachments',
     description: 'Gain real-world experience and kickstart your career.',
     icon: School,
   },
