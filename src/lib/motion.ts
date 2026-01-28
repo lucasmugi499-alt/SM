@@ -1,60 +1,88 @@
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Easing
-export const textEase = 'power4.inOut';
-export const panelEase = 'power4.inOut';
-export const microEase = 'power2.out';
+gsap.registerPlugin(ScrollTrigger);
 
-// Durations
-export const DURATION_FAST = 0.5;
-export const DURATION_BASE = 0.8;
-export const DURATION_SLOW = 1.2;
+export const motionEases = {
+  textEase: 'power4.inOut',
+  panelEase: 'power4.inOut',
+  microEase: 'power2.out',
+};
 
-// Stagger
-export const STAGGER_BASE = 0.07;
+export const motionDurations = {
+  fast: 0.45,
+  base: 0.8,
+  slow: 1.25,
+};
 
-// Reveal Helpers
+export const motionStagger = {
+  base: 0.08,
+};
+
+export const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export const revealFadeUp = (elements: gsap.TweenTarget, options?: gsap.TweenVars) => {
-  return gsap.fromTo(elements, {
-    y: '100%',
-    autoAlpha: 0,
-  }, {
-    y: '0%',
-    autoAlpha: 1,
-    ease: textEase,
-    duration: DURATION_BASE,
-    stagger: STAGGER_BASE,
-    ...options,
-    scrollTrigger: {
-      trigger: elements as gsap.DOMTarget,
-      start: 'top 85%',
-      toggleActions: 'play none none none',
-      ...options?.scrollTrigger,
+  if (prefersReducedMotion()) {
+    gsap.set(elements, { autoAlpha: 1, y: 0 });
+    return null;
+  }
+
+  return gsap.fromTo(
+    elements,
+    { y: 24, autoAlpha: 0 },
+    {
+      y: 0,
+      autoAlpha: 1,
+      ease: motionEases.textEase,
+      duration: motionDurations.base,
+      stagger: motionStagger.base,
+      ...options,
+      scrollTrigger: options?.scrollTrigger
+        ? {
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            ...options.scrollTrigger,
+          }
+        : undefined,
     }
-  });
+  );
 };
 
 export const revealStagger = (elements: gsap.TweenTarget, options?: gsap.TweenVars) => {
-  return gsap.fromTo(elements, {
-    autoAlpha: 0,
-    y: 30,
-  }, {
-    autoAlpha: 1,
-    y: 0,
-    ease: panelEase,
-    duration: DURATION_BASE,
-    stagger: STAGGER_BASE,
-    ...options,
-    scrollTrigger: {
-      trigger: elements as gsap.DOMTarget,
-      start: 'top 90%',
-      toggleActions: 'play none none none',
-      ...options?.scrollTrigger,
+  if (prefersReducedMotion()) {
+    gsap.set(elements, { autoAlpha: 1, y: 0 });
+    return null;
+  }
+
+  return gsap.fromTo(
+    elements,
+    { autoAlpha: 0, y: 28 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      ease: motionEases.panelEase,
+      duration: motionDurations.base,
+      stagger: motionStagger.base,
+      ...options,
+      scrollTrigger: options?.scrollTrigger
+        ? {
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+            ...options.scrollTrigger,
+          }
+        : undefined,
     }
-  });
+  );
 };
 
 export const parallaxMedia = (element: gsap.TweenTarget, intensity: number = 30) => {
+  if (prefersReducedMotion()) {
+    gsap.set(element, { yPercent: 0 });
+    return null;
+  }
+
   return gsap.to(element, {
     yPercent: intensity,
     ease: 'none',
@@ -67,21 +95,25 @@ export const parallaxMedia = (element: gsap.TweenTarget, intensity: number = 30)
   });
 };
 
-export const createPinnedChapter = (trigger: gsap.DOMTarget, duration: string | number, options?: gsap.TweenVars) => {
+export const createPinnedChapter = (
+  trigger: gsap.DOMTarget,
+  duration: string | number,
+  options?: gsap.TweenVars
+) => {
+  if (prefersReducedMotion()) {
+    return null;
+  }
+
   return gsap.timeline({
     scrollTrigger: {
-      trigger: trigger,
+      trigger,
       pin: true,
       scrub: 1,
       start: 'top top',
       end: `+=${duration}`,
       anticipatePin: 1,
+      invalidateOnRefresh: true,
       ...options,
-    }
+    },
   });
 };
-
-// Reduced Motion Check
-gsap.matchMedia().add('(prefers-reduced-motion: reduce)', () => {
-  gsap.globalTimeline.timeScale(0); // Effectively disables all animations
-});

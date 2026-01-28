@@ -28,7 +28,6 @@ export function Hero() {
           // Staggered fade-in for heading and other elements
           revealFadeUp([h1Ref.current, h2Ref.current, '.hero-subcopy, .hero-cta, .hero-trust'], {
             stagger: 0.15,
-            scrollTrigger: null, // We want this to animate on load, not on scroll
           });
         }
       );
@@ -45,7 +44,7 @@ export function Hero() {
   };
 
   return (
-    <section ref={heroRef} className="hero relative h-screen min-h-[700px] w-full overflow-hidden">
+    <section id="S1_HERO" ref={heroRef} className="hero relative h-screen min-h-[700px] w-full overflow-hidden">
         {heroImage && (
             <Image
                 src={heroImage.imageUrl}
@@ -63,22 +62,22 @@ export function Hero() {
             Spark Mentorship
           </h1>
           <h2 ref={h2Ref} className="font-headline text-4xl font-bold md:text-6xl lg:text-7xl text-accent mt-2">
-            Train. Build. Thrive.
+            From soil to storefront.
           </h2>
           <WordByWordHighlight
-            text="Practical agriculture training, mentorship, business consultancy, youth and community support, and internship attachments—designed to build real skills and real outcomes."
+            text="We start with planting, soil preparation, irrigation, and post-harvest handling. Then we add mentorship, business clarity, youth support, and internship attachments so the learning holds when the season turns."
             className="hero-subcopy mt-6 max-w-2xl text-lg text-background/80"
           />
           <div className="hero-cta mt-8 flex flex-wrap gap-4">
             <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => scrollTo('#S2_PILLARS')}>
-              Explore the Journey
+              Follow the journey
             </Button>
-            <Button size="lg" variant="outline" className="border-background text-background hover:bg-background hover:text-foreground" onClick={() => scrollTo('#S12_CTA')}>
-              Book a 1:1 Session
+            <Button size="lg" variant="outline" className="border-background text-background hover:bg-background hover:text-foreground" onClick={() => scrollTo('#S15_BOOKING')}>
+              Book by role
             </Button>
           </div>
           <p className="hero-trust mt-8 text-xs text-background/60 max-w-md">
-            Requests are delivered to our <strong>Information Desk</strong> for proper routing. <strong>Telephone number is required.</strong> You’ll receive a delivery confirmation with a <strong>reference ID</strong>.
+            Requests are delivered to our <strong>Information Desk</strong> for routing by role. <strong>Telephone number is required.</strong> You’ll receive delivery confirmation with a <strong>reference ID</strong>.
           </p>
         </div>
       </div>

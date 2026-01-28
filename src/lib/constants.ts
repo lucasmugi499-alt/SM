@@ -24,48 +24,48 @@ export type Service = {
 export const services: Service[] = [
   {
     title: 'Agricultural Training',
-    description: 'Master modern farming techniques and boost your yield.',
+    description: 'Hands-on field training in soil prep, planting, irrigation, crop care, and post-harvest handling.',
     icon: Leaf,
   },
   {
     title: 'Business Consultancy',
-    description: 'Build the thinking behind your growth—money clarity, marketing direction, compliance readiness, and innovation.',
+    description: 'Decision support for records, pricing, marketing, compliance, and practical innovation.',
     icon: Briefcase,
     subItems: [
-        { title: 'Financial literacy', icon: Banknote },
-        { title: 'Digital marketing', icon: Megaphone },
-        { title: 'Taxation & returns filing', icon: FileText },
-        { title: 'Creativity & innovation', icon: Lightbulb },
-        { title: 'Strategy & operations', icon: Factory },
-    ]
+      { title: 'Financial literacy (general)', icon: Banknote },
+      { title: 'Digital marketing', icon: Megaphone },
+      { title: 'Taxation & returns filing', icon: FileText },
+      { title: 'Creativity & innovation', icon: Lightbulb },
+      { title: 'Strategy & operations', icon: Factory },
+    ],
   },
   {
     title: 'Mentorship & Coaching',
-    description: 'Connect with experienced mentors for personalized guidance.',
+    description: 'Role-based mentorship that turns goals into weekly action and measurable progress.',
     icon: Users,
   },
   {
     title: 'Youth & Community Support',
-    description: 'Confidential and compassionate support for young minds, teens, and those on a path to recovery.',
+    description: 'Confidential guidance for youth wellbeing, family stability, and recovery-oriented support.',
     icon: HeartHandshake,
     subItems: [
-        { title: 'Youth mental health support', icon: HeartHandshake },
-        { title: 'Teenage & adolescent counseling', icon: Smile },
-        { title: 'Rehabilitation & substance addiction counseling', icon: HeartPulse },
-    ]
+      { title: 'Youth mental health support', icon: HeartHandshake },
+      { title: 'Teenage & adolescent counseling', icon: Smile },
+      { title: 'Rehab & substance addiction counseling', icon: HeartPulse },
+    ],
   },
   {
     title: 'Internships & Apprenticeship Attachments',
-    description: 'Gain real-world experience and kickstart your career.',
+    description: 'Structured attachments with supervision, skills targets, and real-world practice.',
     icon: School,
   },
 ];
 
 export const MENTOR_ROLES = [
-  'Mentors',
-  'Counselors',
-  'Farmer Experts',
-  'Psycho-social Experts',
-  'Business Consultants',
-  'Event Managers',
+  'Agriculture Trainer',
+  'Business Consultant',
+  'Mentorship Coach',
+  'Youth Support Counselor',
+  'Internship Coordinator',
+  'Events & Workshops Lead',
 ];

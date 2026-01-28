@@ -6,74 +6,92 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export function AnimationsProvider({ children }: { children: React.ReactNode }) {
-  const lenis = useRef<Lenis | null>(null);
+  const lenisRef = useRef<Lenis | null>(null)
+  const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return
 
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger)
 
-    if (!lenis.current) {
-      lenis.current = new Lenis({
-        lerp: 0.1,
-        duration: 1.2,
-        smoothWheel: true,
-      });
+    if (lenisRef.current) return
 
-      lenis.current.on('scroll', ScrollTrigger.update);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
-      gsap.ticker.add((time) => {
-        lenis.current?.raf(time * 1000);
-      });
+    const lenis = new Lenis({
+      lerp: prefersReducedMotion.matches ? 1 : 0.1,
+      duration: prefersReducedMotion.matches ? 0 : 1.2,
+      smoothWheel: !prefersReducedMotion.matches,
+      smoothTouch: false,
+    })
+    lenisRef.current = lenis
 
-      gsap.ticker.lagSmoothing(0);
+    lenis.on('scroll', ScrollTrigger.update)
 
-      ScrollTrigger.scrollerProxy(document.body, {
-        scrollTop(value) {
-          if (arguments.length && lenis.current) {
-            lenis.current.scrollTo(value, { duration: 0, immediate: true });
-          }
-          return lenis.current?.scroll;
-        },
-        getBoundingClientRect() {
-          return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-        },
-      });
+    const raf = (time: number) => {
+      lenis.raf(time)
+      rafRef.current = requestAnimationFrame(raf)
+    }
+    rafRef.current = requestAnimationFrame(raf)
 
-      const handleResize = () => {
-        ScrollTrigger.refresh();
-      };
-      window.addEventListener('resize', handleResize);
-      
-      // Refresh ScrollTrigger after a short delay to ensure everything is loaded
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
+    const scrollElement = document.documentElement
+
+    ScrollTrigger.scrollerProxy(scrollElement, {
+      scrollTop(value) {
+        if (typeof value === 'number') {
+          lenis.scrollTo(value, { immediate: true })
+        }
+        return lenis.scroll
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }
+      },
+      pinType: scrollElement.style.transform ? 'transform' : 'fixed',
+    })
+
+    ScrollTrigger.defaults({ scroller: scrollElement })
+
+    const handleRefresh = () => lenis.update()
+    ScrollTrigger.addEventListener('refresh', handleRefresh)
+
+    const refreshAll = () => ScrollTrigger.refresh()
+    window.addEventListener('resize', refreshAll)
+    window.addEventListener('load', refreshAll)
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(refreshAll)
     }
 
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: reduce)', () => {
-      if (lenis.current) {
-        lenis.current.stop();
+    const handleReducedMotion = () => {
+      if (prefersReducedMotion.matches) {
+        lenis.stop()
+      } else {
+        lenis.start()
       }
-    });
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      if (lenis.current) {
-        lenis.current.start();
-      }
-    });
+      ScrollTrigger.refresh()
+    }
+
+    prefersReducedMotion.addEventListener('change', handleReducedMotion)
+
+    ScrollTrigger.refresh()
 
     return () => {
-      lenis.current?.destroy();
-      lenis.current = null;
-      // Remove the resize listener
-      window.removeEventListener('resize', () => {
-        ScrollTrigger.refresh();
-      });
-      // It's better to let each component manage its own ScrollTriggers
-      // and use gsap.context for cleanup.
+      prefersReducedMotion.removeEventListener('change', handleReducedMotion)
+      window.removeEventListener('resize', refreshAll)
+      window.removeEventListener('load', refreshAll)
+      ScrollTrigger.removeEventListener('refresh', handleRefresh)
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+      lenis.destroy()
+      lenisRef.current = null
     }
-  }, []);
+  }, [])
 
   return <>{children}</>
 }
