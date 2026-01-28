@@ -7,12 +7,18 @@ import {
   Smile,
   HeartPulse,
   School,
+  Banknote,
+  Megaphone,
+  FileText,
+  Lightbulb,
+  Factory,
 } from 'lucide-react';
 
 export type Service = {
   title: string;
   description: string;
   icon: LucideIcon;
+  subItems?: { title: string; icon: LucideIcon }[];
 };
 
 export const services: Service[] = [
@@ -23,8 +29,15 @@ export const services: Service[] = [
   },
   {
     title: 'Business Consultancy',
-    description: 'Expert advice including financial literacy, digital marketing, taxation & returns filing, and creativity & innovation.',
+    description: 'Build the thinking behind your growth—money clarity, marketing direction, compliance readiness, and innovation.',
     icon: Briefcase,
+    subItems: [
+        { title: 'Financial literacy', icon: Banknote },
+        { title: 'Digital marketing', icon: Megaphone },
+        { title: 'Taxation & returns filing', icon: FileText },
+        { title: 'Creativity & innovation', icon: Lightbulb },
+        { title: 'Strategy & operations', icon: Factory },
+    ]
   },
   {
     title: 'Mentorship & Coaching',
@@ -32,19 +45,14 @@ export const services: Service[] = [
     icon: Users,
   },
   {
-    title: 'Youth Mental Health Support',
-    description: 'Confidential and compassionate support for young minds.',
+    title: 'Youth & Community Support',
+    description: 'Confidential and compassionate support for young minds, teens, and those on a path to recovery.',
     icon: HeartHandshake,
-  },
-  {
-    title: 'Teenage & Adolescent Counseling',
-    description: 'Navigating the challenges of growing up with a trusted guide.',
-    icon: Smile,
-  },
-  {
-    title: 'Rehabilitation & Substance Addiction Counseling',
-    description: 'A supportive path to recovery and a new beginning.',
-    icon: HeartPulse,
+    subItems: [
+        { title: 'Youth mental health support', icon: HeartHandshake },
+        { title: 'Teenage & adolescent counseling', icon: Smile },
+        { title: 'Rehabilitation & substance addiction counseling', icon: HeartPulse },
+    ]
   },
   {
     title: 'Internships & Apprenticeship Attachments',
@@ -54,15 +62,10 @@ export const services: Service[] = [
 ];
 
 export const MENTOR_ROLES = [
-  'Agricultural Expert',
-  'Business Strategist',
-  'Financial Advisor',
-  'Marketing Guru',
-  'Tax Consultant',
-  'Creative Director',
-  'Life Coach',
-  'Mental Health Professional',
-  'Youth Counselor',
-  'Addiction Specialist',
-  'Career Mentor',
+  'Mentors',
+  'Counselors',
+  'Farmer Experts',
+  'Psycho-social Experts',
+  'Business Consultants',
+  'Event Managers',
 ];

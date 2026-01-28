@@ -32,7 +32,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { CheckCircle2, Loader2 } from 'lucide-react';
 import { bookAppointmentAction } from '@/app/actions';
 import { MENTOR_ROLES } from '@/lib/constants';
 
@@ -148,18 +148,24 @@ export function AppointmentForm() {
         </form>
       </Form>
       <AlertDialog open={isDialogOpen} onOpenChange={setDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="text-center">
           <AlertDialogHeader>
-            <AlertDialogTitle>Request Confirmed!</AlertDialogTitle>
-            <AlertDialogDescription>
-              {formState.message}
-              <br />
-              <strong className="mt-2 block">
-                Reference ID: {formState.referenceId}
-              </strong>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <CheckCircle2 className="h-10 w-10 text-primary" />
+            </div>
+            <AlertDialogTitle>Delivered!</AlertDialogTitle>
+            <AlertDialogDescription className="space-y-2">
+              <p>Your request has been delivered to the <strong>Spark Mentorship Information Desk</strong>.</p>
+              <p>We’ll contact you using the phone number you provided.</p>
+              <div className="pt-2">
+                <p className="text-xs text-muted-foreground">Reference ID:</p>
+                <strong className="block font-mono text-sm text-foreground">
+                  {formState.referenceId}
+                </strong>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="sm:justify-center">
             <AlertDialogAction>Close</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

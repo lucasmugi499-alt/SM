@@ -1,3 +1,172 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "IMG_HERO_01",
+      "description": "Sunrise over fields, hands planting.",
+      "imageUrl": "https://images.unsplash.com/photo-1600399507991-c9f51bc7cc2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdW5yaXNlJTIwZmllbGR8ZW58MHx8fHwxNzY5NjE0MjEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sunrise field"
+    },
+    {
+      "id": "IMG_JOURNEY_BG_01",
+      "description": "Abstract farm texture or soil macro.",
+      "imageUrl": "https://images.unsplash.com/photo-1628698960100-70b4181992bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2lsJTIwdGV4dHVyZXxlbnwwfHx8fDE3Njk2MTQyMTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "soil texture"
+    },
+    {
+      "id": "IMG_PILLAR_TRAIN_01",
+      "description": "Farmer examining crops.",
+      "imageUrl": "https://images.unsplash.com/photo-1700503794627-6ea640996129?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXJtZXIlMjBjcm9wc3xlbnwwfHx8fDE3Njk2MTQyMTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "farmer crops"
+    },
+    {
+      "id": "IMG_PILLAR_MENTOR_01",
+      "description": "Two people talking while walking.",
+      "imageUrl": "https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZW9wbGUlMjB3YWxraW5nfGVufDB8fHx8MTc2OTUwNTQwNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "people walking"
+    },
+    {
+      "id": "IMG_PILLAR_CONSULT_01",
+      "description": "Notebook with calculations.",
+      "imageUrl": "https://images.unsplash.com/photo-1709881070774-63ac21f2123a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxub3RlYm9vayUyMGNhbGN1bGF0aW9uc3xlbnwwfHx8fDE3Njk2MTQyMTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "notebook calculations"
+    },
+    {
+      "id": "IMG_PILLAR_YOUTH_01",
+      "description": "Person sitting calmly in natural light.",
+      "imageUrl": "https://images.unsplash.com/photo-1551656222-71345ab13814?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjYWxtJTIwcGVyc29ufGVufDB8fHx8MTc2OTUyNzI1MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "calm person"
+    },
+    {
+      "id": "IMG_PILLAR_INTERNSHIP_01",
+      "description": "Hands-on learning moment.",
+      "imageUrl": "https://images.unsplash.com/photo-1759646827278-27c5733e0cee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxoYW5kcyUyMGxlYXJuaW5nfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hands learning"
+    },
+    {
+      "id": "IMG_AGRI_GALLERY_01",
+      "description": "Seedlings in a nursery.",
+      "imageUrl": "https://images.unsplash.com/photo-1758524054544-577c87b046f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzZWVkbGluZ3MlMjBudXJzZXJ5fGVufDB8fHx8MTc2OTYxNDIxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "seedlings nursery"
+    },
+    {
+      "id": "IMG_AGRI_GALLERY_02",
+      "description": "Soil preparation or compost.",
+      "imageUrl": "https://images.unsplash.com/photo-1751318391445-b1b4fc9397cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjb21wb3N0JTIwc29pbHxlbnwwfHx8fDE3Njk2MTQyMTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "compost soil"
+    },
+    {
+      "id": "IMG_AGRI_GALLERY_03",
+      "description": "Irrigation or watering detail.",
+      "imageUrl": "https://images.unsplash.com/photo-1743742566156-f1745850281a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxpcnJpZ2F0aW9uJTIwd2F0ZXJ8ZW58MHx8fHwxNzY5NjE0MjEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "irrigation water"
+    },
+    {
+      "id": "IMG_AGRI_GALLERY_04",
+      "description": "Harvest process, hands with produce.",
+      "imageUrl": "https://images.unsplash.com/photo-1760445529387-455a90cba4d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxoYXJ2ZXN0JTIwaGFuZHN8ZW58MHx8fHwxNzY5NjE0MjEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "harvest hands"
+    },
+    {
+      "id": "IMG_CARD_TRAIN_01",
+      "description": "Visual for training card",
+      "imageUrl": "https://images.unsplash.com/photo-1709790056310-c05d29006239?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0cmFpbmluZyUyMGNsYXNzfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "training class"
+    },
+    {
+      "id": "IMG_CARD_MENTOR_01",
+      "description": "Visual for mentorship card",
+      "imageUrl": "https://images.unsplash.com/photo-1764173039056-3cc602fef942?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtZW50b3IlMjB0YWxraW5nfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mentor talking"
+    },
+    {
+      "id": "IMG_CARD_CONSULT_01",
+      "description": "Visual for consultancy card",
+      "imageUrl": "https://images.unsplash.com/photo-1603202662747-00e33e7d1468?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxidXNpbmVzcyUyMG1lZXRpbmd8ZW58MHx8fHwxNzY5NTMwMDg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "business meeting"
+    },
+    {
+      "id": "IMG_CARD_YOUTH_01",
+      "description": "Visual for youth support card",
+      "imageUrl": "https://images.unsplash.com/photo-1573878587306-c6723c815090?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzdXBwb3J0JTIwZ3JvdXB8ZW58MHx8fHwxNzY5NTQ5MjA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "support group"
+    },
+    {
+      "id": "IMG_CARD_INTERNSHIP_01",
+      "description": "Visual for internship card",
+      "imageUrl": "https://images.unsplash.com/photo-1766297248071-dfa7a5bc9b87?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxpbnRlcm4lMjB3b3JraW5nfGVufDB8fHx8MTc2OTYxNDIxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "intern working"
+    },
+    {
+      "id": "IMG_PATH_STARTER_01",
+      "description": "Beginner learning moment.",
+      "imageUrl": "https://images.unsplash.com/photo-1509114859430-5f2c74177f4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxiZWdpbm5lciUyMGxlYXJuaW5nfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "beginner learning"
+    },
+    {
+      "id": "IMG_PATH_GROWTH_01",
+      "description": "Active farming or improvement phase.",
+      "imageUrl": "https://images.unsplash.com/photo-1621679613476-f1af7f27e557?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhY3RpdmUlMjBmYXJtaW5nfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "active farming"
+    },
+    {
+      "id": "IMG_PATH_PRO_01",
+      "description": "Leadership or advanced planning.",
+      "imageUrl": "https://images.unsplash.com/photo-1590402494628-9b9acf0b90ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhZHZhbmNlZCUyMHBsYW5uaW5nfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "advanced planning"
+    },
+    {
+      "id": "IMG_ROUTING_01",
+      "description": "Clean abstract desk or notebook.",
+      "imageUrl": "https://images.unsplash.com/photo-1625297672303-64bf96394e10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGVzayUyMG5vdGVib29rfGVufDB8fHx8MTc2OTU1NDAwMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desk notebook"
+    },
+    {
+      "id": "IMG_CONSULTANCY_01",
+      "description": "Planning or ledger on a desk.",
+      "imageUrl": "https://images.unsplash.com/photo-1675002598990-12fcb6e1f19c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bGVkZ2VyJTIwZGVza3xlbnwwfHx8fDE3Njk2MTQyMTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ledger desk"
+    },
+    {
+      "id": "IMG_YOUTH_01",
+      "description": "Calm, respectful visual for youth support.",
+      "imageUrl": "https://images.unsplash.com/photo-1611457195232-15f1475cd6b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2FsbSUyMG5hdHVyZXxlbnwwfHx8fDE3Njk1ODI2NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "calm nature"
+    },
+    {
+      "id": "IMG_INTERNSHIPS_01",
+      "description": "Hands-on training in a workshop.",
+      "imageUrl": "https://images.unsplash.com/photo-1517130038641-a774d04afb3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b3Jrc2hvcCUyMHRyYWluaW5nfGVufDB8fHx8MTc2OTYxNDIxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "workshop training"
+    },
+    {
+      "id": "IMG_EVENTS_01",
+      "description": "Workshop event.",
+      "imageUrl": "https://images.unsplash.com/photo-1758426637769-a00c1edbbcf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx3b3Jrc2hvcCUyMGV2ZW50fGVufDB8fHx8MTc2OTYxNDIxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "workshop event"
+    },
+    {
+      "id": "IMG_EVENTS_02",
+      "description": "Group learning event.",
+      "imageUrl": "https://images.unsplash.com/photo-1758797316165-986ec92e7ad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxncm91cCUyMGxlYXJuaW5nfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "group learning"
+    },
+    {
+      "id": "IMG_EVENTS_03",
+      "description": "Presentation or demo.",
+      "imageUrl": "https://images.unsplash.com/photo-1733222765056-b0790217baa9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwcmVzZW50YXRpb24lMjBkZW1vfGVufDB8fHx8MTc2OTYxNDIxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "presentation demo"
+    },
+    {
+      "id": "IMG_PROOF_01",
+      "description": "Training group photo.",
+      "imageUrl": "https://images.unsplash.com/photo-1498661694102-0a3793edbe74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxncm91cCUyMHBob3RvfGVufDB8fHx8MTc2OTYxNDIxMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "group photo"
+    },
+    {
+      "id": "IMG_FINALCTA_01",
+      "description": "Abstract background for final CTA.",
+      "imageUrl": "https://images.unsplash.com/photo-1498262257252-c282316270bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YWJzdHJhY3QlMjB0ZXh0dXJlfGVufDB8fHx8MTc2OTU0OTI3OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract texture"
+    }
+  ]
 }
