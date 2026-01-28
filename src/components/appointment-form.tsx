@@ -87,7 +87,7 @@ export function AppointmentForm() {
             name="role"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>I am looking for a...</FormLabel>
+                <FormLabel>I am looking for support from...</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -95,7 +95,7 @@ export function AppointmentForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a mentor type" />
+                      <SelectValue placeholder="Select a role/title" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

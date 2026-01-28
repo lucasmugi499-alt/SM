@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { prefersReducedMotion } from '@/lib/motion';
 
 interface WordByWordHighlightProps {
   text: string;
@@ -16,31 +17,43 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
   const component = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (isMobile === false && component.current) {
-      const split = new SplitType(component.current, { types: 'words' });
+    if (isMobile !== false || !component.current) return;
+    if (prefersReducedMotion()) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const split = new SplitType(component.current!, { types: 'words' });
       const words = split.words;
+
+      gsap.set(words, {
+        color: 'hsl(var(--word-muted))',
+        opacity: 0.35,
+        y: 8,
+      });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: component.current,
-          start: 'top 60%',
-          end: 'bottom 80%',
+          start: 'top 70%',
+          end: '+=120%',
           scrub: true,
-          markers: false, // Set to true for debugging
+          invalidateOnRefresh: true,
         },
       });
 
       tl.to(words, {
-        color: '#FFF',
-        stagger: 0.2,
+        color: 'hsl(var(--word-active))',
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
         ease: 'none',
       });
 
-      return () => {
-        split.revert();
-        tl.kill();
-      };
-    }
+      return () => split.revert();
+    }, component);
+
+    return () => ctx.revert();
   }, [isMobile, text]);
 
   return (

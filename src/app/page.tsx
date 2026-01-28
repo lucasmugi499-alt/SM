@@ -5,6 +5,8 @@ import { Footer } from '@/components/footer';
 import { JourneyIndicator } from '@/components/journey-indicator';
 import { PillarsPinned } from '@/components/pillars-pinned';
 import { AgricultureStory } from '@/components/agriculture-story';
+import { SparkBento } from '@/components/spark-bento';
+import { KeyholeSpotlight } from '@/components/keyhole-spotlight';
 import { TrainingPathsRail } from '@/components/training-paths-rail';
 import { MentorshipRouting } from '@/components/mentorship-routing';
 import { ConsultancyModules } from '@/components/consultancy-modules';
@@ -13,25 +15,29 @@ import { InternshipTimeline } from '@/components/internship-timeline';
 import { EventsPreview } from '@/components/events-preview';
 import { TestimonialsImpact } from '@/components/testimonials-impact';
 import { FinalCTA } from '@/components/final-cta';
+import { AppointmentSection } from '@/components/appointment-section';
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section id="S1_HERO"><Hero /></section>
+        <Hero />
         <JourneyIndicator />
-        <section id="S2_PILLARS"><PillarsPinned /></section>
-        <section id="S3_AGRICULTURE"><AgricultureStory /></section>
-        <section id="S4_CATEGORIES"><ServiceCategories /></section>
-        <section id="S5_TRAINING"><TrainingPathsRail /></section>
-        <section id="S6_MENTORSHIP"><MentorshipRouting /></section>
-        <section id="S7_CONSULTANCY"><ConsultancyModules /></section>
-        <section id="S8_YOUTH"><YouthSupportChapter /></section>
-        <section id="S9_INTERNSHIPS"><InternshipTimeline /></section>
-        <section id="S10_EVENTS"><EventsPreview /></section>
-        <section id="S11_TESTIMONIALS"><TestimonialsImpact /></section>
-        <section id="S12_CTA"><FinalCTA /></section>
+        <PillarsPinned />
+        <SparkBento />
+        <AgricultureStory />
+        <KeyholeSpotlight />
+        <ServiceCategories />
+        <TrainingPathsRail />
+        <MentorshipRouting />
+        <ConsultancyModules />
+        <YouthSupportChapter />
+        <InternshipTimeline />
+        <EventsPreview />
+        <TestimonialsImpact />
+        <FinalCTA />
+        <AppointmentSection />
       </main>
       <Footer />
     </div>

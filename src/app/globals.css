@@ -37,6 +37,8 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 123 20% 69%;
     --sidebar-ring: 123 44% 39%;
+    --word-muted: 60 8% 72%;
+    --word-active: 45 100% 60%;
   }
 
   .dark {
@@ -72,6 +74,8 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 123 44% 39%;
+    --word-muted: 240 4% 45%;
+    --word-active: 45 100% 68%;
   }
 }
 
@@ -81,6 +85,26 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .keyhole-mask {
+    --spotlight-x: 50%;
+    --spotlight-y: 50%;
+    --spotlight-size: 18vmin;
+    -webkit-mask-image: radial-gradient(
+      circle var(--spotlight-size) at var(--spotlight-x) var(--spotlight-y),
+      transparent 0%,
+      transparent 42%,
+      black 60%
+    );
+    mask-image: radial-gradient(
+      circle var(--spotlight-size) at var(--spotlight-x) var(--spotlight-y),
+      transparent 0%,
+      transparent 42%,
+      black 60%
+    );
   }
 }
 

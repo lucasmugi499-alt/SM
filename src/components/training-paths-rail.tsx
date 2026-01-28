@@ -7,26 +7,27 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Check } from 'lucide-react';
+import { revealFadeUp, revealStagger } from '@/lib/motion';
 
 const paths = [
   {
     title: 'Starter Track',
-    for: 'Beginners building foundations',
-    outcomes: ['Understand core farming principles', 'Build basic routines and consistency', 'Learn simple planning and inputs'],
+    for: 'For new growers building habits',
+    outcomes: ['Soil prep and planting sequence', 'Basic irrigation and field routines', 'Simple seasonal planning'],
     imageId: 'IMG_PATH_STARTER_01',
     cta: 'Explore Starter Track',
   },
   {
     title: 'Growth Track',
-    for: 'Learners ready to level up',
-    outcomes: ['Improve process and yield consistency', 'Reduce losses through better handling', 'Strengthen decision-making'],
+    for: 'For growers ready to stabilize yield',
+    outcomes: ['Improve consistency in crop care', 'Reduce losses through better handling', 'Strengthen weekly decision-making'],
     imageId: 'IMG_PATH_GROWTH_01',
     cta: 'Explore Growth Track',
   },
   {
     title: 'Pro Track',
-    for: 'Advanced planning and leadership',
-    outcomes: ['Build resilient farm systems', 'Improve profitability and risk planning', 'Develop long-term strategy'],
+    for: 'For teams leading bigger operations',
+    outcomes: ['Build resilient farm systems', 'Improve profitability and risk planning', 'Develop long-term farm strategy'],
     imageId: 'IMG_PATH_PRO_01',
     cta: 'Explore Pro Track',
   },
@@ -52,6 +53,7 @@ export function TrainingPathsRail() {
             scrub: 1,
             end: () => `+=${containerRef.current!.offsetWidth * (cards.length - 1)}`,
             invalidateOnRefresh: true,
+            anticipatePin: 1,
           },
         });
       return () => pin.kill();
@@ -60,12 +62,41 @@ export function TrainingPathsRail() {
     return () => mm.revert();
   }, []);
 
+  useLayoutEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      const fade = revealFadeUp(sectionRef.current?.querySelectorAll('.training-reveal'), {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+        },
+      });
+      const mobileGrid = sectionRef.current?.querySelector('.training-grid');
+      const stagger = mobileGrid
+        ? revealStagger(sectionRef.current?.querySelectorAll('.training-card'), {
+            scrollTrigger: {
+              trigger: mobileGrid,
+              start: 'top 85%',
+            },
+          })
+        : null;
+      return () => {
+        fade?.scrollTrigger?.kill();
+        fade?.kill();
+        stagger?.scrollTrigger?.kill();
+        stagger?.kill();
+      };
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="S6_PATHS" ref={sectionRef} className="py-20 md:py-32 bg-secondary md:overflow-hidden">
+    <section id="S7_TRAINING" ref={sectionRef} className="py-20 md:py-32 bg-secondary md:overflow-hidden">
       <div className="container mb-12">
-        <h2 className="font-headline text-4xl font-bold md:text-5xl">Choose your training path.</h2>
-        <p className="mt-4 text-lg text-foreground/80 max-w-2xl">
-          Pick where you are now. We’ll help you move forward with structure, mentorship, and practical learning.
+        <h2 className="training-reveal font-headline text-4xl font-bold md:text-5xl">Choose your training path.</h2>
+        <p className="training-reveal mt-4 text-lg text-foreground/80 max-w-2xl">
+          Start where you are. Each track builds routines you can keep when weather, prices, and time pressure change.
         </p>
       </div>
 
@@ -75,7 +106,7 @@ export function TrainingPathsRail() {
           {paths.map((path) => {
             const image = PlaceHolderImages.find((img) => img.id === path.imageId);
             return (
-              <Card key={path.title} className="path-card w-[450px] flex-shrink-0 grid grid-rows-subgrid row-span-2 overflow-hidden">
+              <Card key={path.title} className="training-card path-card w-[450px] flex-shrink-0 grid grid-rows-subgrid row-span-2 overflow-hidden">
                 <CardHeader>
                   {image && (
                      <div className="relative aspect-video rounded-md overflow-hidden">
@@ -100,11 +131,11 @@ export function TrainingPathsRail() {
       </div>
       
       {/* Mobile: Vertical Stack */}
-      <div className="container grid gap-8 md:hidden">
+      <div className="training-grid container grid gap-8 md:hidden">
       {paths.map((path) => {
             const image = PlaceHolderImages.find((img) => img.id === path.imageId);
             return (
-              <Card key={path.title} className="w-full flex-shrink-0 overflow-hidden">
+              <Card key={path.title} className="training-card w-full flex-shrink-0 overflow-hidden">
                 <CardHeader>
                   {image && (
                      <div className="relative aspect-video rounded-md overflow-hidden">

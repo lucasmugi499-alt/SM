@@ -5,12 +5,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from './ui/button';
+import { revealFadeUp } from '@/lib/motion';
 
 const timelineSteps = [
     { num: 1, title: 'Orientation', description: 'Goals, readiness, and expectations' },
-    { num: 2, title: 'Placement', description: 'Matching to opportunities' },
-    { num: 3, title: 'Mentored Growth', description: 'Check-ins and support' },
-    { num: 4, title: 'Outcomes', description: 'Skills strengthened, next steps planned' }
+    { num: 2, title: 'Placement', description: 'Role matching and schedule planning' },
+    { num: 3, title: 'Mentored growth', description: 'Check-ins, feedback, and guidance' },
+    { num: 4, title: 'Outcomes', description: 'Skills evidence and next-step planning' }
 ];
 
 export function InternshipTimeline() {
@@ -48,13 +49,31 @@ export function InternshipTimeline() {
         return () => mm.revert();
     }, []);
 
+    useLayoutEffect(() => {
+        if (!sectionRef.current) return;
+        const ctx = gsap.context(() => {
+            const fade = revealFadeUp(sectionRef.current?.querySelectorAll('.internship-reveal'), {
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 80%',
+                },
+            });
+            return () => {
+                fade?.scrollTrigger?.kill();
+                fade?.kill();
+            };
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <section id="S10_INTERNSHIPS" ref={sectionRef} className="py-20 md:py-32 bg-secondary">
+        <section id="S11_INTERNSHIPS" ref={sectionRef} className="py-20 md:py-32 bg-secondary">
             <div className="container grid lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 className="font-headline text-4xl font-bold md:text-5xl">Learn by doing—attachments that change outcomes.</h2>
-                    <p className="mt-4 text-lg text-foreground/80">
-                        Internships and apprenticeship attachments help learners build confidence, gain real-world skills, and grow professional readiness—supported through mentorship and check-ins.
+                    <h2 className="internship-reveal font-headline text-4xl font-bold md:text-5xl">Learn by doing with structured attachments.</h2>
+                    <p className="internship-reveal mt-4 text-lg text-foreground/80">
+                        We set clear skills targets, place learners in supervised roles, and run check-ins so the experience turns into real capability—not just time served.
                     </p>
                     <div className="timeline-container relative mt-12 pl-12">
                         <div className="timeline-line absolute left-4 top-0 h-full w-0.5 bg-border"></div>
@@ -68,9 +87,9 @@ export function InternshipTimeline() {
                             </div>
                         ))}
                     </div>
-                    <Button size="lg" className="mt-8" onClick={() => scrollTo('#S14_BOOKING')}>Request an internship attachment →</Button>
+                    <Button size="lg" className="internship-reveal mt-8" onClick={() => scrollTo('#S15_BOOKING')}>Request an internship attachment →</Button>
                 </div>
-                <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden">
+                <div className="internship-reveal relative aspect-[4/3] w-full rounded-lg overflow-hidden">
                     {image && (
                         <Image src={image.imageUrl} alt={image.description} fill className="object-cover" data-ai-hint={image.imageHint} />
                     )}

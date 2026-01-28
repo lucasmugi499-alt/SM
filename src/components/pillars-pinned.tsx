@@ -10,12 +10,12 @@ const pillars = [
   {
     id: 'pillar-1',
     title: 'Agricultural Training',
-    body: 'Learn practical methods you can apply immediately—built for consistency, resilience, and better results across seasons.',
+    body: 'We teach the work in sequence: soil preparation, planting, irrigation, crop care, and post-harvest handling so every season builds on the last.',
     highlights: [
-      'Crop fundamentals & seasonal planning',
-      'Livestock basics & sustainable routines',
-      'Soil and water stewardship',
-      'Climate-smart practices',
+      'Seasonal planning & crop calendars',
+      'Soil preparation & nutrient balance',
+      'Irrigation routines & water care',
+      'Field checks & pest response',
       'Post-harvest handling & storage',
     ],
     imageId: 'IMG_PILLAR_TRAIN_01',
@@ -23,20 +23,20 @@ const pillars = [
   {
     id: 'pillar-2',
     title: 'Mentorship & Coaching',
-    body: 'Get guidance that turns goals into action. We support planning, problem-solving, and confidence through 1:1 and group mentorship.',
+    body: 'Guidance that turns goals into weekly actions. We focus on accountability, decision-making, and the confidence to keep showing up.',
     highlights: [
-      'One-on-one sessions',
-      'Cohort mentorship',
-      'Goal setting & accountability',
-      'Skills reinforcement',
+      'Role-based 1:1 sessions',
+      'Cohort mentorship circles',
+      'Action planning & checkpoints',
       'Practical decision support',
+      'Confidence and consistency',
     ],
     imageId: 'IMG_PILLAR_MENTOR_01',
   },
   {
     id: 'pillar-3',
     title: 'Business Consultancy',
-    body: 'Build the thinking behind your growth—money clarity, marketing direction, compliance readiness, and innovation.',
+    body: 'Clear records, clear pricing, clear marketing. We help you make decisions that keep work profitable and compliant.',
     highlights: [
       'Financial literacy (general)',
       'Digital marketing',
@@ -49,23 +49,23 @@ const pillars = [
   {
     id: 'pillar-4',
     title: 'Youth & Community Support',
-    body: 'Support that respects people. We offer guidance and counseling options designed to strengthen wellbeing and stability.',
+    body: 'Support that respects people. We help youth and families find stability, build coping tools, and move forward with dignity.',
     highlights: [
       'Youth mental health support',
       'Teenage & adolescent counseling',
-      'Rehabilitation and counseling for drug and substance addiction (recovery-oriented support)',
+      'Recovery-oriented counseling for substance use',
     ],
     imageId: 'IMG_PILLAR_YOUTH_01',
   },
   {
     id: 'pillar-5',
     title: 'Internships & Apprenticeship Attachments',
-    body: 'Learn by doing. We connect learners to structured attachments that build skill, readiness, and real-world confidence.',
+    body: 'Learn by doing with structure. We place learners in attachments with clear goals, mentors, and practical milestones.',
     highlights: [
-      'Placement support',
-      'Mentored growth check-ins',
-      'Skills development pathway',
-      'Partner opportunities',
+      'Placement & role matching',
+      'Mentored check-ins',
+      'Skills targets and evidence',
+      'Work-ready routines',
     ],
     imageId: 'IMG_PILLAR_INTERNSHIP_01',
   },
@@ -90,6 +90,7 @@ export function PillarsPinned() {
           pin: true,
           scrub: 1,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       });
 
@@ -119,7 +120,7 @@ export function PillarsPinned() {
   }, []);
 
   return (
-    <section id="S3_PILLARS" ref={sectionRef} className="relative min-h-screen bg-secondary lg:min-h-0 lg:h-screen lg:py-24">
+    <section id="S2_PILLARS" ref={sectionRef} className="relative min-h-screen bg-secondary lg:min-h-0 lg:h-screen lg:py-24">
       <div className="container grid h-full items-center gap-8 lg:grid-cols-2">
         {/* Text Content Area */}
         <div className="relative h-[450px] lg:h-full">

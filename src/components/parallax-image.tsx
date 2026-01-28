@@ -18,8 +18,11 @@ export function ParallaxImage({ src, alt, intensity = 30, className }: ParallaxI
 
   useLayoutEffect(() => {
     if (isMobile === false && imageRef.current) {
-      const ctx = parallaxMedia(imageRef.current, intensity);
-      return () => ctx.revert();
+      const tween = parallaxMedia(imageRef.current, intensity);
+      return () => {
+        tween?.scrollTrigger?.kill();
+        tween?.kill();
+      };
     }
   }, [isMobile, intensity]);
 

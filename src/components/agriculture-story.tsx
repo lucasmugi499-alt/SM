@@ -2,15 +2,15 @@
 import { useLayoutEffect, useRef } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Check } from 'lucide-react';
-import { revealStagger } from '@/lib/motion';
+import { revealFadeUp, revealStagger } from '@/lib/motion';
 import { ParallaxImage } from '@/components/parallax-image';
 
 const outcomes = [
-  'Build a seasonal plan you can actually follow',
-  'Improve consistency through simple, repeatable routines',
-  'Reduce losses with better handling and storage',
-  'Strengthen soil, water, and resilience practices',
-  'Learn how to track progress and adjust quickly',
+  'Plan planting windows and input timing with confidence',
+  'Set simple irrigation routines that fit daily life',
+  'Reduce losses through better sorting and storage',
+  'Strengthen soil care and water conservation habits',
+  'Track results and adjust quickly for the next season',
 ];
 
 const galleryImageIds = [
@@ -26,23 +26,34 @@ export function AgricultureStory() {
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-    const ctx = revealStagger(sectionRef.current.querySelectorAll('.outcome-item'), {
+    const fade = revealFadeUp(sectionRef.current.querySelectorAll('.agri-reveal'), {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 80%',
+      },
+    });
+    const tween = revealStagger(sectionRef.current.querySelectorAll('.outcome-item'), {
       scrollTrigger: {
         trigger: sectionRef.current.querySelector('.outcomes-grid'),
-      }
+      },
     });
-    return () => ctx.revert();
+    return () => {
+      fade?.scrollTrigger?.kill();
+      fade?.kill();
+      tween?.scrollTrigger?.kill();
+      tween?.kill();
+    };
   }, []);
 
   return (
-    <section id="S4_AGRI_STORY" ref={sectionRef} className="py-20 md:py-32">
+    <section id="S4_AGRICULTURE" ref={sectionRef} className="py-20 md:py-32">
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-headline text-4xl font-bold md:text-5xl">
-            Agriculture that works in real life.
+          <h2 className="agri-reveal font-headline text-4xl font-bold md:text-5xl">
+            Agriculture that survives the real season.
           </h2>
-          <p className="mt-6 text-lg text-foreground/80">
-            We focus on outcomes: stronger routines, smarter planning, healthier systems, and better handling. Training is built to be practical—so learners can apply it immediately and improve with each season.
+          <p className="agri-reveal mt-6 text-lg text-foreground/80">
+            We teach the work in the same order it happens on the ground—soil prep, planting, irrigation, crop care, then handling and storage. The goal is a plan you can repeat, not a one-off success.
           </p>
         </div>
 
@@ -55,7 +66,7 @@ export function AgricultureStory() {
           ))}
         </div>
 
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+        <div className="agri-reveal mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {galleryImages.map((image, i) => (
             <ParallaxImage
               key={image.id}

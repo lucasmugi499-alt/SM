@@ -7,40 +7,48 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 const chapters = [
   { id: '#S1_HERO', label: 'Intro' },
   { id: '#S2_PILLARS', label: 'Pillars' },
-  { id: '#S3_AGRICULTURE', label: 'Agriculture' },
-  { id: '#S4_CATEGORIES', label: 'Services' },
-  { id: '#S5_TRAINING', label: 'Training' },
-  { id: '#S6_MENTORSHIP', label: 'Mentorship' },
-  { id: '#S7_CONSULTANCY', label: 'Consultancy' },
-  { id: '#S8_YOUTH', label: 'Youth Support' },
-  { id: '#S9_INTERNSHIPS', label: 'Internships' },
-  { id: '#S10_EVENTS', label: 'Events' },
-  { id: '#S11_TESTIMONIALS', label: 'Proof' },
-  { id: '#S12_CTA', label: 'Book' },
+  { id: '#S3_BENTO', label: 'Bento' },
+  { id: '#S4_AGRICULTURE', label: 'Agriculture' },
+  { id: '#S5_SPOTLIGHT', label: 'Spotlight' },
+  { id: '#S6_CATEGORIES', label: 'Services' },
+  { id: '#S7_TRAINING', label: 'Training' },
+  { id: '#S8_MENTORSHIP', label: 'Mentorship' },
+  { id: '#S9_CONSULTANCY', label: 'Consultancy' },
+  { id: '#S10_YOUTH', label: 'Youth Support' },
+  { id: '#S11_INTERNSHIPS', label: 'Internships' },
+  { id: '#S12_EVENTS', label: 'Events' },
+  { id: '#S13_PROOF', label: 'Proof' },
+  { id: '#S15_BOOKING', label: 'Book' },
 ];
 
 export function JourneyIndicator() {
   const component = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      chapters.forEach((chapter, index) => {
+      const links = component.current?.querySelectorAll('a');
+      const triggers = chapters.map((chapter, index) =>
         ScrollTrigger.create({
           trigger: chapter.id,
           start: 'top center',
           end: 'bottom center',
-          onToggle: self => {
+          onToggle: (self) => {
             if (self.isActive) {
-              gsap.to(component.current?.querySelectorAll('a'), {
-                color: '#9CA3AF', // gray-400
+              gsap.to(links, {
+                color: '#9CA3AF',
+                overwrite: true,
               });
-              gsap.to(component.current?.querySelectorAll('a')[index], {
-                color: '#F97316', // orange-500
+              gsap.to(links?.[index], {
+                color: '#F97316',
+                overwrite: true,
               });
             }
-          }
-        });
-      });
+          },
+        })
+      );
+
+      return () => triggers.forEach((trigger) => trigger.kill());
     }, component);
 
     return () => ctx.revert();
