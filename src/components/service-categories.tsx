@@ -1,17 +1,12 @@
 'use client';
 
 import { services } from '@/lib/constants';
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { revealFadeUp, revealStagger } from '@/lib/motion';
+import { revealCards, revealHeadline, revealLabel, revealParagraphChunks } from '@/lib/motion-system';
 
 export function ServiceCategories() {
   const isMobile = useIsMobile();
@@ -57,65 +52,62 @@ export function ServiceCategories() {
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-    const ctx = gsap.context(() => {
-      const fade = revealFadeUp(sectionRef.current?.querySelectorAll('.services-reveal'), {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-        },
-      });
-      const grid = sectionRef.current?.querySelector('.services-grid');
-      const stagger = grid
-        ? revealStagger(sectionRef.current?.querySelectorAll('.service-card'), {
-            scrollTrigger: {
-              trigger: grid,
-              start: 'top 85%',
-            },
-          })
-        : null;
-      return () => {
-        fade?.scrollTrigger?.kill();
-        fade?.kill();
-        stagger?.scrollTrigger?.kill();
-        stagger?.kill();
-      };
-    }, sectionRef);
+    const label = revealLabel(sectionRef.current?.querySelectorAll('.services-label'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },
+    });
+    const headline = revealHeadline(sectionRef.current?.querySelectorAll('.services-headline'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 82%' },
+    });
+    const paragraphs = revealParagraphChunks(sectionRef.current?.querySelectorAll('.services-copy'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+    });
+    const cards = revealCards(sectionRef.current?.querySelectorAll('.service-card'), {
+      scrollTrigger: { trigger: sectionRef.current?.querySelector('.services-grid'), start: 'top 85%' },
+    });
 
-    return () => ctx.revert();
+    return () => {
+      label.tween?.scrollTrigger?.kill();
+      label.tween?.kill();
+      headline.tween?.scrollTrigger?.kill();
+      headline.tween?.kill();
+      headline.revert?.();
+      paragraphs.tween?.scrollTrigger?.kill();
+      paragraphs.tween?.kill();
+      cards.tween?.scrollTrigger?.kill();
+      cards.tween?.kill();
+    };
   }, []);
 
   return (
-    <section id="S6_CATEGORIES" ref={sectionRef} className="bg-primary/5 py-16 md:overflow-hidden md:py-24">
-      <div className="container text-center">
-        <div className="mb-12">
-          <h2 className="services-reveal font-headline text-3xl font-bold md:text-4xl">
+    <section id="S6_CATEGORIES" ref={sectionRef} className="bg-primary/5 py-24 md:overflow-hidden">
+      <div className="container">
+        <div className="max-w-2xl">
+          <p className="services-label text-xs uppercase tracking-[0.4em] text-primary/70">Chapter · Taxonomy</p>
+          <h2 className="services-headline mt-4 font-headline text-4xl font-semibold md:text-5xl">
             Service chapters, organized with intent.
           </h2>
-          <p className="services-reveal mt-4 max-w-2xl mx-auto text-foreground/70">
-            Each chapter answers a real question—what to plant, how to handle the harvest, where to get guidance, and how to build stability for youth and families.
-          </p>
+          <div className="services-copy mt-4 space-y-3 text-lg text-foreground/70">
+            <p>Each chapter answers a real question and maps to clear outcomes.</p>
+            <p>Training, consultancy, mentorship, and community support stay in one system.</p>
+          </div>
         </div>
       </div>
-      
-      {/* Desktop: GSAP-powered horizontal scroll */}
-      <div ref={containerRef} className="hidden md:flex md:w-max md:gap-8 md:pl-[max(2rem,calc(50vw-550px))]">
+
+      <div ref={containerRef} className="hidden md:flex md:w-max md:gap-8 md:pl-[max(2rem,calc(50vw-600px))]">
         {services.map((service, index) => (
-          <Card key={index} className="service-card w-[400px] flex-shrink-0 bg-background/80 backdrop-blur-sm">
+          <Card key={index} className="service-card w-[420px] flex-shrink-0 bg-background/80 backdrop-blur-sm">
             <CardHeader className="h-full">
               <div className="mb-4">
                 <service.icon className="h-10 w-10 text-primary" />
               </div>
               <CardTitle className="font-headline">{service.title}</CardTitle>
-              <CardDescription className="pt-2">
-                {service.description}
-              </CardDescription>
+              <CardDescription className="pt-2">{service.description}</CardDescription>
             </CardHeader>
           </Card>
         ))}
       </div>
 
-      {/* Mobile: Stacked cards */}
-      <div className="services-grid container grid gap-8 md:hidden">
+      <div className="services-grid container mt-10 grid gap-8 md:hidden">
         {services.map((service, index) => (
           <Card key={index} className="service-card bg-background/80 backdrop-blur-sm">
             <CardHeader>
@@ -123,9 +115,7 @@ export function ServiceCategories() {
                 <service.icon className="h-10 w-10 text-primary" />
               </div>
               <CardTitle className="font-headline">{service.title}</CardTitle>
-              <CardDescription className="pt-2">
-                {service.description}
-              </CardDescription>
+              <CardDescription className="pt-2">{service.description}</CardDescription>
             </CardHeader>
           </Card>
         ))}

@@ -1,42 +1,92 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import Image from 'next/image';
+import { useLenis } from '@/components/animations-provider';
 import { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { parallaxMedia, revealFadeUp } from '@/lib/motion';
-import { WordByWordHighlight } from '@/components/word-by-word-highlight';
+import {
+  motionTokens,
+  revealHeadline,
+  revealLabel,
+  revealParagraphChunks,
+  washTransition,
+  pinnedChapter,
+} from '@/lib/motion-system';
 
 export function Hero() {
-  const heroImage = PlaceHolderImages.find((img) => img.id === 'IMG_HERO_01');
   const heroRef = useRef<HTMLElement>(null);
-  const h1Ref = useRef<HTMLHeadingElement>(null);
-  const h2Ref = useRef<HTMLHeadingElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const washRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
   useLayoutEffect(() => {
     if (!heroRef.current) return;
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+      const tl = pinnedChapter(heroRef.current, '120%');
+      if (tl && videoRef.current) {
+        tl.fromTo(
+          videoRef.current,
+          { autoAlpha: 0, scale: 1.05 },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            duration: motionTokens.durations.slow,
+            ease: motionTokens.eases.panelEase,
+          }
+        );
+      }
 
-      mm.add(
-        '(min-width: 768px) and (prefers-reduced-motion: no-preference)',
-        () => {
-          // Parallax for the background image
-          parallaxMedia('.hero-bg-image', -20);
+      const label = revealLabel('.hero-label', {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 85%',
+        },
+      });
 
-          // Staggered fade-in for heading and other elements
-          revealFadeUp([h1Ref.current, h2Ref.current, '.hero-cta, .hero-trust'], {
-            stagger: 0.15,
-          });
-        }
-      );
+      const headline = revealHeadline('.hero-headline', {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+        },
+      });
+
+      const paragraph = revealParagraphChunks('.hero-copy', {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 75%',
+        },
+      });
+
+      const wash = washTransition(washRef.current, {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 40%',
+        },
+      });
+
+      return () => {
+        label.tween?.scrollTrigger?.kill();
+        label.tween?.kill();
+        headline.tween?.scrollTrigger?.kill();
+        headline.tween?.kill();
+        headline.revert?.();
+        paragraph.tween?.scrollTrigger?.kill();
+        paragraph.tween?.kill();
+        wash.tween?.scrollTrigger?.kill();
+        wash.tween?.kill();
+        tl?.scrollTrigger?.kill();
+        tl?.kill();
+      };
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  const scrollTo = (selector: string) => {
+  const handleScrollTo = (selector: string) => {
+    if (lenis) {
+      lenis.scrollTo(selector, { duration: 1.4 });
+      return;
+    }
     const element = document.querySelector(selector);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -44,58 +94,64 @@ export function Hero() {
   };
 
   return (
-    <section
-      id="S1_HERO"
-      ref={heroRef}
-      className="hero relative h-screen min-h-[700px] w-full overflow-hidden"
-    >
-      {heroImage && (
-        <Image
-          src={heroImage.imageUrl}
-          alt={heroImage.description}
-          fill
-          className="hero-bg-image object-cover"
-          priority
-          data-ai-hint={heroImage.imageHint}
-        />
-      )}
-      <div className="absolute inset-0 bg-black/50" />
-      <div className="container relative z-10 flex h-full flex-col justify-center text-background">
+    <section id="S1_HERO" ref={heroRef} className="relative min-h-screen w-full overflow-hidden">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/VID_HERO_01.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_55%)]" />
+      <div className="container relative z-10 flex min-h-screen items-center py-24">
         <div className="max-w-3xl">
-          <h1 ref={h1Ref} className="font-headline text-5xl font-bold md:text-7xl lg:text-8xl">
-            Spark Mentorship
+          <p className="hero-label text-xs uppercase tracking-[0.4em] text-background/70">
+            Spark mentorship · agricultural training
+          </p>
+          <h1 className="hero-headline mt-6 font-headline text-5xl font-semibold text-background md:text-7xl">
+            A scroll-led journey for growers, builders, and future leaders.
           </h1>
-          <h2 ref={h2Ref} className="mt-2 font-headline text-4xl font-bold text-accent md:text-6xl lg:text-7xl">
-            Train. Build. Thrive.
-          </h2>
-          <WordByWordHighlight
-            text="Practical agriculture training, mentorship, business consultancy, youth and community support, and internship attachments—designed to build real skills and real outcomes."
-            className="hero-subcopy mt-6 max-w-2xl text-lg text-background/80"
-          />
-          <div className="hero-cta mt-8 flex flex-wrap gap-4">
+          <div className="hero-copy mt-8 space-y-4 text-lg text-background/80">
+            <p>
+              We shape training, mentorship, and consultancy into a single, deliberate path—from the soil
+              to the market, from the first season to resilient operations.
+            </p>
+            <p>
+              Every request moves through our Information Desk, ensuring the right role responds with a
+              confirmed reference ID and a clear next step.
+            </p>
+          </div>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
             <Button
               size="lg"
               className="bg-accent text-accent-foreground hover:bg-accent/90"
-              onClick={() => scrollTo('#S3_PILLARS')}
+              onClick={() => handleScrollTo('#S7_TRAINING')}
             >
-              Explore the Journey
+              Begin the journey
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-background text-background hover:bg-background hover:text-foreground"
-              onClick={() => scrollTo('#S14_BOOKING')}
+              className="border-background/70 text-background hover:bg-background hover:text-foreground"
+              onClick={() => handleScrollTo('#S15_BOOKING')}
             >
-              Book a 1:1 Session
+              Book with the Info Desk
             </Button>
           </div>
-          <p className="hero-trust mt-8 max-w-md text-xs text-background/60">
-            Requests are delivered to our <strong>Information Desk</strong> for proper routing.{' '}
-            <strong>Telephone number is required.</strong> You’ll receive a delivery confirmation
-            with a <strong>reference ID</strong>.
-          </p>
+          <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-background/50">
+            <span className="h-10 w-[1px] bg-background/40" />
+            Scroll to enter
+          </div>
         </div>
       </div>
+      <div
+        ref={washRef}
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent via-background/40 to-background"
+      />
     </section>
   );
 }

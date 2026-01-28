@@ -5,10 +5,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MENTOR_ROLES } from '@/lib/constants';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { revealFadeUp } from '@/lib/motion';
+import { revealCards, revealHeadline, revealLabel, revealParagraphChunks } from '@/lib/motion-system';
+import { useLenis } from '@/components/animations-provider';
 
 export function MentorshipRouting() {
   const sectionRef = useRef<HTMLElement>(null);
+  const lenis = useLenis();
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -16,11 +18,11 @@ export function MentorshipRouting() {
 
     const mm = gsap.matchMedia(sectionRef.current);
     mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', (context) => {
-      if(!context.scope) return;
+      if (!context.scope) return;
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: context.scope,
-          start: 'top 50%',
+          start: 'top 55%',
           end: 'bottom bottom',
           pin: true,
           pinSpacing: true,
@@ -33,8 +35,8 @@ export function MentorshipRouting() {
       tl.from('.role-card', {
         autoAlpha: 0,
         filter: 'blur(10px)',
-        scale: 0.9,
-        stagger: 0.1,
+        scale: 0.95,
+        stagger: 0.08,
       });
 
       return () => tl.kill();
@@ -45,23 +47,37 @@ export function MentorshipRouting() {
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-    const ctx = gsap.context(() => {
-      const fade = revealFadeUp(sectionRef.current?.querySelectorAll('.mentor-reveal'), {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-        },
-      });
-      return () => {
-        fade?.scrollTrigger?.kill();
-        fade?.kill();
-      };
-    }, sectionRef);
+    const label = revealLabel(sectionRef.current?.querySelectorAll('.mentor-label'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },
+    });
+    const headline = revealHeadline(sectionRef.current?.querySelectorAll('.mentor-headline'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 82%' },
+    });
+    const paragraphs = revealParagraphChunks(sectionRef.current?.querySelectorAll('.mentor-copy'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+    });
+    const cards = revealCards(sectionRef.current?.querySelectorAll('.role-card'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+    });
 
-    return () => ctx.revert();
+    return () => {
+      label.tween?.scrollTrigger?.kill();
+      label.tween?.kill();
+      headline.tween?.scrollTrigger?.kill();
+      headline.tween?.kill();
+      headline.revert?.();
+      paragraphs.tween?.scrollTrigger?.kill();
+      paragraphs.tween?.kill();
+      cards.tween?.scrollTrigger?.kill();
+      cards.tween?.kill();
+    };
   }, []);
-  
+
   const scrollTo = (selector: string) => {
+    if (lenis) {
+      lenis.scrollTo(selector, { duration: 1.2 });
+      return;
+    }
     const element = document.querySelector(selector);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -69,25 +85,33 @@ export function MentorshipRouting() {
   };
 
   return (
-    <section id="S8_MENTORSHIP" ref={sectionRef} className="py-20 md:py-40">
-      <div className="container text-center">
-        <h2 className="mentor-reveal font-headline text-4xl font-bold md:text-5xl">
-          One request. Routed to the right role.
-        </h2>
-        <p className="mentor-reveal mt-4 max-w-2xl mx-auto text-lg text-foreground/80">
-          You don’t have to chase individual names. Choose the role you need, submit your request, and our <strong>Information Desk</strong> routes it to the right team.
-        </p>
-
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
-          {MENTOR_ROLES.map((role) => (
-            <Card key={role} className="role-card p-4 md:p-6 bg-secondary">
-              <h3 className="font-semibold text-base md:text-lg">{role}</h3>
-            </Card>
-          ))}
+    <section id="S8_MENTORSHIP" ref={sectionRef} className="py-24">
+      <div className="container grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <p className="mentor-label text-xs uppercase tracking-[0.4em] text-primary/70">
+            Chapter · Mentorship routing
+          </p>
+          <h2 className="mentor-headline mt-4 font-headline text-4xl font-semibold md:text-5xl">
+            One request. Routed by role, not by name.
+          </h2>
+          <div className="mentor-copy mt-6 space-y-4 text-lg text-foreground/80">
+            <p>
+              Choose the title that fits your need and our Information Desk routes the request to the
+              right mentor, trainer, or counselor.
+            </p>
+            <p>Every request receives a delivery confirmation and a unique reference ID.</p>
+          </div>
+          <Button size="lg" className="mt-8" onClick={() => scrollTo('#S15_BOOKING')}>
+            Book by role
+          </Button>
         </div>
 
-        <div className="mentor-reveal mt-12">
-            <Button size="lg" onClick={() => scrollTo('#S15_BOOKING')}>Book by role →</Button>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          {MENTOR_ROLES.map((role) => (
+            <Card key={role} className="role-card flex items-center justify-center bg-secondary p-4 text-center">
+              <h3 className="text-sm font-semibold md:text-base">{role}</h3>
+            </Card>
+          ))}
         </div>
       </div>
     </section>
