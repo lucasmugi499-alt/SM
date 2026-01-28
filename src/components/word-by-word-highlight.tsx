@@ -19,55 +19,61 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
   useEffect(() => {
     // Only run on desktop once breakpoint is known
     if (isMobile !== false) return;
-    if (!component.current) return;
-
-    // Reduced motion: no splitting, just ensure visible
+  
+    const el = component.current;
+    if (!el) return;
+  
     if (prefersReducedMotion()) {
-      component.current.style.opacity = '1';
+      el.style.opacity = '1';
       return;
     }
-
+  
     gsap.registerPlugin(ScrollTrigger);
-
+  
     let split: SplitType | null = null;
-
+  
     const ctx = gsap.context(() => {
-      const el = component.current;
-      if (!el) return;
-
-      split = new SplitType(el, { types: 'words' });
-
-      // Normalize targets safely (SplitType can return nullish/odd shapes sometimes)
-      const words = (split.words ?? [])
-        .filter((w): w is HTMLElement => !!w && w instanceof HTMLElement);
-
+      // Capture element inside the context (stable ref)
+      const target = component.current;
+      if (!target) return;
+      if (!target.isConnected) return;
+  
+      split = new SplitType(target, { types: 'words' });
+  
+      // ✅ HARDEN: Convert to a clean HTMLElement[] (no nulls)
+      const raw = split.words ?? [];
+      const words = raw.filter((w): w is HTMLElement => w instanceof HTMLElement);
+  
+      // If no valid words, bail safely
       if (!words.length) return;
-
+  
       gsap.set(words, {
         color: 'hsl(var(--word-muted))',
         opacity: 0.35,
         y: 8,
       });
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 70%',
-          end: '+=120%',
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      }).to(words, {
-        color: 'hsl(var(--word-active))',
-        opacity: 1,
-        y: 0,
-        stagger: 0.08,
-        ease: 'none',
-      });
+  
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: target,          // ✅ never null
+            start: 'top 70%',
+            end: '+=120%',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        })
+        .to(words, {
+          color: 'hsl(var(--word-active))',
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: 'none',
+        });
     }, component);
-
+  
     return () => {
-      // Revert split first, then GSAP context
+      // Revert split first, then GSAP context cleanup
       split?.revert();
       ctx.revert();
     };
