@@ -1,7 +1,6 @@
 import { Header } from '@/components/header';
 import { Hero } from '@/components/hero';
 import { ServiceCategories } from '@/components/service-categories';
-import { AppointmentSection } from '@/components/appointment-section';
 import { Footer } from '@/components/footer';
 import { JourneyIndicator } from '@/components/journey-indicator';
 import { PillarsPinned } from '@/components/pillars-pinned';
@@ -20,20 +19,19 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <Hero />
+        <section id="S1_HERO"><Hero /></section>
         <JourneyIndicator />
-        <PillarsPinned />
-        <AgricultureStory />
-        <ServiceCategories />
-        <TrainingPathsRail />
-        <MentorshipRouting />
-        <ConsultancyModules />
-        <YouthSupportChapter />
-        <InternshipTimeline />
-        <EventsPreview />
-        <TestimonialsImpact />
-        <FinalCTA />
-        <AppointmentSection />
+        <section id="S2_PILLARS"><PillarsPinned /></section>
+        <section id="S3_AGRICULTURE"><AgricultureStory /></section>
+        <section id="S4_CATEGORIES"><ServiceCategories /></section>
+        <section id="S5_TRAINING"><TrainingPathsRail /></section>
+        <section id="S6_MENTORSHIP"><MentorshipRouting /></section>
+        <section id="S7_CONSULTANCY"><ConsultancyModules /></section>
+        <section id="S8_YOUTH"><YouthSupportChapter /></section>
+        <section id="S9_INTERNSHIPS"><InternshipTimeline /></section>
+        <section id="S10_EVENTS"><EventsPreview /></section>
+        <section id="S11_TESTIMONIALS"><TestimonialsImpact /></section>
+        <section id="S12_CTA"><FinalCTA /></section>
       </main>
       <Footer />
     </div>

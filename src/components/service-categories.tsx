@@ -16,29 +16,32 @@ export function ServiceCategories() {
   const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const ctx = useRef<gsap.Context>();
 
   useEffect(() => {
-    if (isMobile === false) { // isMobile can be undefined on first render
-      gsap.registerPlugin(ScrollTrigger);
-      const mm = gsap.matchMedia();
+    if (isMobile === false) {
+      ctx.current = gsap.context(() => {
+        const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
-        const pin = gsap.to(containerRef.current, {
-          x: () => -(containerRef.current!.scrollWidth - window.innerWidth),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            pin: true,
-            scrub: 1,
-            end: () => `+=${containerRef.current!.scrollWidth - window.innerWidth}`,
-            invalidateOnRefresh: true
-          },
+        mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
+          const pin = gsap.to(containerRef.current, {
+            x: () => -(containerRef.current!.scrollWidth - window.innerWidth),
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              pin: true,
+              scrub: 1,
+              end: () => `+=${containerRef.current!.scrollWidth - window.innerWidth}`,
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
+            },
+          });
         });
-        return () => pin.kill();
-      });
-
-      return () => mm.revert();
+      }, sectionRef);
     }
+
+    return () => ctx.current?.revert();
+
   }, [isMobile]);
 
   return (

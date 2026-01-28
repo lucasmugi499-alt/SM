@@ -1,10 +1,9 @@
 'use client';
 import { useLayoutEffect, useRef } from 'react';
-import Image from 'next/image';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Check } from 'lucide-react';
+import { revealStagger } from '@/lib/motion';
+import { ParallaxImage } from '@/components/parallax-image';
 
 const outcomes = [
   'Build a seasonal plan you can actually follow',
@@ -23,49 +22,16 @@ const galleryImageIds = [
 
 export function AgricultureStory() {
   const sectionRef = useRef<HTMLElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
   const galleryImages = PlaceHolderImages.filter((img) => galleryImageIds.includes(img.id));
 
   useLayoutEffect(() => {
-    if (!sectionRef.current || !galleryRef.current) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const mm = gsap.matchMedia(sectionRef.current);
-    mm.add('(prefers-reduced-motion: no-preference)', (context) => {
-      if(!context.scope) return;
-      // Staggered list reveal
-      gsap.from(context.scope.querySelectorAll('.outcome-item'), {
-        scrollTrigger: {
-          trigger: context.scope.querySelector('.outcomes-grid'),
-          start: 'top 80%',
-        },
-        opacity: 0,
-        x: -30,
-        stagger: 0.2,
-        ease: 'power2.out',
-      });
-
-      // Parallax gallery
-      const images = galleryRef.current?.querySelectorAll('.gallery-image');
-      if (images) {
-        images.forEach((img) => {
-          gsap.fromTo(
-            img,
-            { y: -40, ease: 'none' },
-            {
-              y: 40,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: img,
-                scrub: true,
-              },
-            }
-          );
-        });
+    if (!sectionRef.current) return;
+    const ctx = revealStagger(sectionRef.current.querySelectorAll('.outcome-item'), {
+      scrollTrigger: {
+        trigger: sectionRef.current.querySelector('.outcomes-grid'),
       }
     });
-
-    return () => mm.revert();
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -89,18 +55,15 @@ export function AgricultureStory() {
           ))}
         </div>
 
-        <div ref={galleryRef} className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          {galleryImages.map((image) => (
-            <div key={image.id} className="gallery-image relative aspect-[3/4] overflow-hidden rounded-lg">
-              <Image
-                src={image.imageUrl}
-                alt={image.description}
-                fill
-                className="object-cover"
-                data-ai-hint={image.imageHint}
-                sizes="(max-width: 768px) 50vw, 25vw"
-              />
-            </div>
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+          {galleryImages.map((image, i) => (
+            <ParallaxImage
+              key={image.id}
+              src={image.imageUrl}
+              alt={image.description}
+              className="relative aspect-[3/4] overflow-hidden rounded-lg"
+              intensity={i % 2 === 0 ? 20 : -20} // Alternate intensity
+            />
           ))}
         </div>
       </div>

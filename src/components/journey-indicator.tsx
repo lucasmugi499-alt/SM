@@ -1,71 +1,56 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const chapters = ['Training', 'Mentorship', 'Consultancy', 'Youth Support', 'Internships', 'Proof', 'Book'];
+const chapters = [
+  { id: '#S1_HERO', label: 'Intro' },
+  { id: '#S2_PILLARS', label: 'Pillars' },
+  { id: '#S3_AGRICULTURE', label: 'Agriculture' },
+  { id: '#S4_CATEGORIES', label: 'Services' },
+  { id: '#S5_TRAINING', label: 'Training' },
+  { id: '#S6_MENTORSHIP', label: 'Mentorship' },
+  { id: '#S7_CONSULTANCY', label: 'Consultancy' },
+  { id: '#S8_YOUTH', label: 'Youth Support' },
+  { id: '#S9_INTERNSHIPS', label: 'Internships' },
+  { id: '#S10_EVENTS', label: 'Events' },
+  { id: '#S11_TESTIMONIALS', label: 'Proof' },
+  { id: '#S12_CTA', label: 'Book' },
+];
 
 export function JourneyIndicator() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const component = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    if (!sectionRef.current) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const mm = gsap.matchMedia();
-
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          end: 'bottom 50%',
-          scrub: true,
-        },
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      chapters.forEach((chapter, index) => {
+        ScrollTrigger.create({
+          trigger: chapter.id,
+          start: 'top center',
+          end: 'bottom center',
+          onToggle: self => {
+            if (self.isActive) {
+              gsap.to(component.current?.querySelectorAll('a'), {
+                color: '#9CA3AF', // gray-400
+              });
+              gsap.to(component.current?.querySelectorAll('a')[index], {
+                color: '#F97316', // orange-500
+              });
+            }
+          }
+        });
       });
+    }, component);
 
-      tl.from('.journey-line', {
-        scaleY: 0,
-        transformOrigin: 'top',
-        ease: 'none',
-      }).from(
-        '.journey-chapter',
-        {
-          opacity: 0,
-          y: 20,
-          stagger: 0.2,
-          ease: 'power2.out',
-        },
-        '-=0.5'
-      );
-
-      return () => tl.kill();
-    });
-
-    return () => mm.revert();
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section id="S2_JOURNEY" ref={sectionRef} className="py-12 md:py-20">
-      <div className="container relative max-w-4xl">
-        <div className="absolute left-4 top-0 h-full w-px bg-border/50 journey-line md:left-1/2 md:-translate-x-1/2"></div>
-        <div className="text-center mb-12">
-            <h3 className="font-headline text-2xl">Scroll to explore our chapters.</h3>
-        </div>
-        <div className="relative flex flex-col items-start gap-12 md:items-center">
-          {chapters.map((chapter, index) => (
-            <div key={chapter} className="journey-chapter relative flex items-center md:w-full">
-              <div className={`flex items-center gap-4 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse md:text-right'} md:w-1/2 ${index % 2 === 0 ? 'md:ml-auto md:pl-8' : 'md:mr-auto md:pr-8'}`}>
-                <div className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                  <div className="h-2 w-2 rounded-full bg-primary-foreground"></div>
-                </div>
-                <h4 className="font-bold text-lg md:text-xl text-foreground/80">{chapter}</h4>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+    <div ref={component} className="fixed top-1/2 right-4 -translate-y-1/2 z-50 hidden md:flex flex-col gap-2 text-sm font-medium">
+      {chapters.map(chapter => (
+        <a href={chapter.id} key={chapter.id} className="text-gray-400 hover:text-orange-500 transition-colors duration-300">{chapter.label}</a>
+      ))}
+    </div>
+  )
 }
