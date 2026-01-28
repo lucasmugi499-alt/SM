@@ -17,46 +17,40 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
   const component = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    // Only run on desktop once breakpoint is known
     if (isMobile !== false) return;
-  
+
     const el = component.current;
-    // Early exit if the element isn't in the DOM
-    if (!el || !el.isConnected) return;
-  
-    // Respect reduced motion
+    if (!el) return;
+
     if (prefersReducedMotion()) {
       el.style.opacity = '1';
       return;
     }
-  
+
     gsap.registerPlugin(ScrollTrigger);
-  
+
     let split: SplitType | null = null;
-  
+
     const ctx = gsap.context(() => {
       const target = component.current;
-      // Double-check target inside the GSAP context
-      if (!target || !target.isConnected) return;
-  
+      if (!target) return;
+      if (!target.isConnected) return; // extra safety in dev StrictMode
+
       split = new SplitType(target, { types: 'words' });
-  
-      // Paranoid hardening: ensure we have a clean array of actual elements.
-      const words = (split.words || []).filter(
-        (w): w is HTMLElement => w instanceof HTMLElement && w.isConnected
+
+      // ✅ sanitize targets: remove null/undefined/non-elements
+      const words = (split.words ?? []).filter(
+        (w): w is HTMLElement => w instanceof HTMLElement
       );
-      
-      // Final safety check before passing to GSAP
-      if (!words || words.length === 0) {
-        return;
-      }
-  
+
+      if (!words.length) return;
+
       gsap.set(words, {
         color: 'hsl(var(--word-muted))',
         opacity: 0.35,
         y: 8,
       });
-  
+
       gsap
         .timeline({
           scrollTrigger: {
@@ -75,7 +69,7 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
           ease: 'none',
         });
     }, component);
-  
+
     return () => {
       split?.revert();
       ctx.revert();
