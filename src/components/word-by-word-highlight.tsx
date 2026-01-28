@@ -24,7 +24,11 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
 
     const ctx = gsap.context(() => {
       const split = new SplitType(component.current!, { types: 'words' });
-      const words = split.words;
+      const words = split.words ?? [];
+
+      if (words.length === 0) {
+        return () => split.revert();
+      }
 
       gsap.set(words, {
         color: 'hsl(var(--word-muted))',
