@@ -2,7 +2,6 @@
 
 import { useLayoutEffect, useRef } from 'react';
 import Image from 'next/image';
-import { gsap } from 'gsap';
 import {
   Leaf,
   Users,
@@ -11,54 +10,61 @@ import {
   School,
   CalendarCheck,
   ShieldCheck,
+  Sprout,
 } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
-import { revealStagger } from '@/lib/motion';
+import { revealCards, revealHeadline, revealLabel, revealParagraphChunks } from '@/lib/motion-system';
 
 const tiles = [
   {
-    title: 'Agriculture Training',
-    description: 'Soil prep, planting, irrigation, crop care, and post-harvest handling in the right order.',
+    title: 'Agricultural Training',
+    description: 'Seasonal field routines, soil preparation, irrigation, crop care, and post-harvest handling.',
     icon: Leaf,
     className: 'md:col-span-6',
     imageId: 'IMG_AGRI_GALLERY_02',
   },
   {
-    title: 'Mentorship',
-    description: 'Weekly actions, accountability, and decision support from the right role.',
+    title: 'Mentorship & Coaching',
+    description: 'Weekly actions and accountability routed by role, not by individual names.',
     icon: Users,
     className: 'md:col-span-3',
   },
   {
     title: 'Business Consultancy',
-    description: 'Records, pricing, marketing, compliance, and practical innovation.',
+    description: 'Financial literacy, digital marketing, taxation, innovation, and strategy.',
     icon: Briefcase,
     className: 'md:col-span-3',
   },
   {
-    title: 'Youth Support',
-    description: 'Confidential guidance, coping tools, and respectful recovery pathways.',
+    title: 'Youth mental health support',
+    description: 'Confidential support and coping tools for youth and families.',
     icon: HeartHandshake,
     className: 'md:col-span-4',
   },
   {
-    title: 'Internships',
-    description: 'Structured attachments with supervision, targets, and real work.',
+    title: 'Teenage & adolescent counseling',
+    description: 'Respectful counseling with recovery-oriented language.',
+    icon: Sprout,
+    className: 'md:col-span-4',
+  },
+  {
+    title: 'Internship & apprenticeship attachments',
+    description: 'Structured placements with mentors, targets, and documented outcomes.',
     icon: School,
     className: 'md:col-span-4',
   },
   {
-    title: 'Events & Workshops',
-    description: 'Focused sessions that deliver practical outcomes in one day.',
+    title: 'Events & workshops',
+    description: 'Short, focused sessions that deliver immediate, practical skills.',
     icon: CalendarCheck,
     className: 'md:col-span-4',
   },
   {
     title: 'Info Desk Promise',
-    description: 'Book by role only. Every request is routed by our Information Desk and delivered with a reference ID.',
+    description: 'Every request is routed through the Spark Mentorship Information Desk with a reference ID.',
     icon: ShieldCheck,
-    className: 'md:col-span-12',
+    className: 'md:col-span-8',
     featured: true,
     imageId: 'IMG_CONSULTANCY_01',
   },
@@ -70,30 +76,44 @@ export function SparkBento() {
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-    const ctx = gsap.context(() => {
-      const tween = revealStagger(sectionRef.current?.querySelectorAll('.bento-tile'), {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-        },
-      });
-      return () => {
-        tween?.scrollTrigger?.kill();
-        tween?.kill();
-      };
-    }, sectionRef);
+    const label = revealLabel(sectionRef.current?.querySelectorAll('.bento-label'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },
+    });
+    const headline = revealHeadline(sectionRef.current?.querySelectorAll('.bento-headline'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 82%' },
+    });
+    const paragraphs = revealParagraphChunks(sectionRef.current?.querySelectorAll('.bento-copy'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+    });
+    const cards = revealCards(sectionRef.current?.querySelectorAll('.bento-tile'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
+    });
 
-    return () => ctx.revert();
+    return () => {
+      label.tween?.scrollTrigger?.kill();
+      label.tween?.kill();
+      headline.tween?.scrollTrigger?.kill();
+      headline.tween?.kill();
+      headline.revert?.();
+      paragraphs.tween?.scrollTrigger?.kill();
+      paragraphs.tween?.kill();
+      cards.tween?.scrollTrigger?.kill();
+      cards.tween?.kill();
+    };
   }, []);
 
   return (
-    <section id="S3_BENTO" ref={sectionRef} className="py-20 md:py-32">
+    <section id="S3_BENTO" ref={sectionRef} className="py-24">
       <div className="container">
         <div className="max-w-3xl">
-          <h2 className="font-headline text-4xl font-bold md:text-5xl">Spark Bento</h2>
-          <p className="mt-4 text-lg text-foreground/80">
-            A dense view of the work: training, mentorship, consultancy, and community support—each tile is a chapter with clear outcomes.
-          </p>
+          <p className="bento-label text-xs uppercase tracking-[0.4em] text-primary/70">Chapter · Scope</p>
+          <h2 className="bento-headline mt-4 font-headline text-4xl font-semibold md:text-5xl">
+            A bento view of the full mandate.
+          </h2>
+          <div className="bento-copy mt-4 space-y-3 text-lg text-foreground/80">
+            <p>Every tile is a chapter with outcomes, not marketing filler.</p>
+            <p>Training, mentorship, consultancy, and youth support move as one system.</p>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-12 md:grid-rows-2">

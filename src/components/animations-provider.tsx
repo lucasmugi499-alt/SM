@@ -10,7 +10,7 @@ export const useLenis = () => useContext(LenisContext);
 
 export function AnimationsProvider({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
-  const rafRef = useRef<number | null>(null);
+  const tickerRef = useRef<((time: number) => void) | null>(null);
   const isInitialized = useRef(false);
 
   useEffect(() => {
@@ -22,31 +22,45 @@ export function AnimationsProvider({ children }: { children: React.ReactNode }) 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const newLenis = new Lenis({
-      lerp: prefersReducedMotion.matches ? 1 : 0.1,
+      lerp: prefersReducedMotion.matches ? 1 : 0.08,
       duration: prefersReducedMotion.matches ? 0 : 1.2,
       smoothWheel: !prefersReducedMotion.matches,
       smoothTouch: false,
     });
+
     setLenis(newLenis);
 
-    const raf = (time: number) => {
-      newLenis.raf(time);
-      rafRef.current = requestAnimationFrame(raf);
-    };
-    rafRef.current = requestAnimationFrame(raf);
-    
-    newLenis.on('scroll', ScrollTrigger.update)
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        if (typeof value === 'number') {
+          newLenis.scrollTo(value, { immediate: true });
+        }
+        return newLenis.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.documentElement.style.transform ? 'transform' : 'fixed',
+    });
 
-    gsap.ticker.add((time)=>{
-        newLenis.raf(time * 1000)
-    })
+    ScrollTrigger.defaults({ scroller: document.documentElement });
+    newLenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.lagSmoothing(0);
+    tickerRef.current = (time: number) => {
+      newLenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerRef.current);
 
     const handleRefresh = () => {
-        newLenis.resize();
-        ScrollTrigger.refresh(true);
+      newLenis.resize();
+      ScrollTrigger.refresh();
     };
-
-    window.addEventListener('resize', handleRefresh);
 
     const handleReducedMotion = () => {
       if (prefersReducedMotion.matches) {
@@ -57,6 +71,7 @@ export function AnimationsProvider({ children }: { children: React.ReactNode }) 
       ScrollTrigger.refresh();
     };
 
+    window.addEventListener('resize', handleRefresh);
     prefersReducedMotion.addEventListener('change', handleReducedMotion);
 
     ScrollTrigger.refresh();
@@ -64,8 +79,8 @@ export function AnimationsProvider({ children }: { children: React.ReactNode }) 
     return () => {
       prefersReducedMotion.removeEventListener('change', handleReducedMotion);
       window.removeEventListener('resize', handleRefresh);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
+      if (tickerRef.current) {
+        gsap.ticker.remove(tickerRef.current);
       }
       newLenis.destroy();
       isInitialized.current = false;

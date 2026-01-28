@@ -12,6 +12,7 @@ import {
   FileText,
   Lightbulb,
   Factory,
+  CalendarCheck,
 } from 'lucide-react';
 
 export type Service = {
@@ -24,7 +25,8 @@ export type Service = {
 export const services: Service[] = [
   {
     title: 'Agricultural Training',
-    description: 'Hands-on field training in soil prep, planting, irrigation, crop care, and post-harvest handling.',
+    description:
+      'Hands-on field training in soil prep, planting, irrigation, crop care, and post-harvest handling.',
     icon: Leaf,
   },
   {
@@ -51,13 +53,18 @@ export const services: Service[] = [
     subItems: [
       { title: 'Youth mental health support', icon: HeartHandshake },
       { title: 'Teenage & adolescent counseling', icon: Smile },
-      { title: 'Rehab & substance addiction counseling', icon: HeartPulse },
+      { title: 'Recovery-oriented substance counseling', icon: HeartPulse },
     ],
   },
   {
     title: 'Internships & Apprenticeship Attachments',
     description: 'Structured attachments with supervision, skills targets, and real-world practice.',
     icon: School,
+  },
+  {
+    title: 'Events/Workshops',
+    description: 'Focused sessions with practical outcomes for growers, founders, and community partners.',
+    icon: CalendarCheck,
   },
 ];
 

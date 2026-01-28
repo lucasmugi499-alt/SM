@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { prefersReducedMotion, revealFadeUp } from '@/lib/motion';
+import { prefersReducedMotion, revealHeadline, revealLabel, revealParagraphChunks } from '@/lib/motion-system';
 
 export function KeyholeSpotlight() {
   const isMobile = useIsMobile();
@@ -19,7 +19,19 @@ export function KeyholeSpotlight() {
     if (!sectionRef.current || !maskRef.current) return;
 
     const ctx = gsap.context(() => {
-      const tween = revealFadeUp(sectionRef.current?.querySelectorAll('.spotlight-reveal'), {
+      const label = revealLabel(sectionRef.current?.querySelectorAll('.spotlight-label'), {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 85%',
+        },
+      });
+      const headline = revealHeadline(sectionRef.current?.querySelectorAll('.spotlight-headline'), {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 82%',
+        },
+      });
+      const paragraphs = revealParagraphChunks(sectionRef.current?.querySelectorAll('.spotlight-copy'), {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 80%',
@@ -29,8 +41,13 @@ export function KeyholeSpotlight() {
       if (isMobile !== false || prefersReducedMotion()) {
         gsap.set(maskRef.current, { opacity: 0 });
         return () => {
-          tween?.scrollTrigger?.kill();
-          tween?.kill();
+          label.tween?.scrollTrigger?.kill();
+          label.tween?.kill();
+          headline.tween?.scrollTrigger?.kill();
+          headline.tween?.kill();
+          headline.revert?.();
+          paragraphs.tween?.scrollTrigger?.kill();
+          paragraphs.tween?.kill();
         };
       }
 
@@ -61,8 +78,13 @@ export function KeyholeSpotlight() {
         .to(maskRef.current, { opacity: 0, ease: 'none' }, 0.85);
 
       return () => {
-        tween?.scrollTrigger?.kill();
-        tween?.kill();
+        label.tween?.scrollTrigger?.kill();
+        label.tween?.kill();
+        headline.tween?.scrollTrigger?.kill();
+        headline.tween?.kill();
+        headline.revert?.();
+        paragraphs.tween?.scrollTrigger?.kill();
+        paragraphs.tween?.kill();
         tl.scrollTrigger?.kill();
         tl.kill();
         gsap.set(maskRef.current, { clearProps: 'opacity' });
@@ -73,22 +95,24 @@ export function KeyholeSpotlight() {
   }, [isMobile]);
 
   return (
-    <section id="S5_SPOTLIGHT" ref={sectionRef} className="py-20 md:py-32 bg-secondary">
-      <div className="container grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+    <section id="S5_SPOTLIGHT" ref={sectionRef} className="py-24 bg-secondary">
+      <div className="container grid gap-12 lg:grid-cols-[1.05fr_0.95fr] items-center">
         <div>
-          <p className="spotlight-reveal text-xs uppercase tracking-[0.4em] text-primary/80">
-            Spotlight chapter
+          <p className="spotlight-label text-xs uppercase tracking-[0.4em] text-primary/80">
+            Spotlight
           </p>
-          <h2 className="spotlight-reveal mt-4 font-headline text-4xl font-bold md:text-5xl">
-            See the season through a smaller window.
+          <h2 className="spotlight-headline mt-4 font-headline text-4xl font-semibold md:text-5xl">
+            Focus on one field, then the full season.
           </h2>
-          <p className="spotlight-reveal mt-6 text-lg text-foreground/80">
-            We move focus step by step—from a single planting decision to a full field plan. Scroll to watch the
-            spotlight expand as the story gets bigger.
-          </p>
-          <p className="spotlight-reveal mt-4 text-sm text-foreground/60">
-            On mobile we keep it simple, letting the imagery breathe without heavy masking.
-          </p>
+          <div className="spotlight-copy mt-6 space-y-4 text-lg text-foreground/80">
+            <p>
+              We start with one decision—seed choice, soil readiness, irrigation timing—then widen the
+              view until the whole season is visible.
+            </p>
+            <p>
+              On mobile the story stays light and readable, letting imagery breathe without heavy masking.
+            </p>
+          </div>
         </div>
 
         <div className="relative h-[380px] w-full overflow-hidden rounded-2xl border border-border">

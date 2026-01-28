@@ -131,7 +131,7 @@ export function AppointmentForm() {
                 <FormLabel>Tell us about your needs</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Describe what you're hoping to achieve or discuss..."
+                    placeholder="Describe what you're hoping to achieve or discuss (e.g., training path, mentorship role, or consultancy focus)."
                     className="resize-none"
                     rows={5}
                     {...field}

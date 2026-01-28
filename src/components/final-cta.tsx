@@ -1,16 +1,22 @@
 'use client';
 
 import { useLayoutEffect, useRef } from 'react';
-import { gsap } from 'gsap';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { revealFadeUp } from '@/lib/motion';
+import { revealHeadline, revealLabel, revealParagraphChunks } from '@/lib/motion-system';
+import { useLenis } from '@/components/animations-provider';
 
 export function FinalCTA() {
-  const image = PlaceHolderImages.find(img => img.id === 'IMG_FINALCTA_01');
+  const image = PlaceHolderImages.find((img) => img.id === 'IMG_FINALCTA_01');
   const sectionRef = useRef<HTMLElement>(null);
+  const lenis = useLenis();
+
   const scrollTo = (selector: string) => {
+    if (lenis) {
+      lenis.scrollTo(selector, { duration: 1.2 });
+      return;
+    }
     const element = document.querySelector(selector);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -19,41 +25,49 @@ export function FinalCTA() {
 
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
-    const ctx = gsap.context(() => {
-      const fade = revealFadeUp(sectionRef.current?.querySelectorAll('.cta-reveal'), {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-        },
-      });
-      return () => {
-        fade?.scrollTrigger?.kill();
-        fade?.kill();
-      };
-    }, sectionRef);
+    const label = revealLabel(sectionRef.current?.querySelectorAll('.cta-label'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },
+    });
+    const headline = revealHeadline(sectionRef.current?.querySelectorAll('.cta-headline'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 82%' },
+    });
+    const paragraphs = revealParagraphChunks(sectionRef.current?.querySelectorAll('.cta-copy'), {
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+    });
 
-    return () => ctx.revert();
+    return () => {
+      label.tween?.scrollTrigger?.kill();
+      label.tween?.kill();
+      headline.tween?.scrollTrigger?.kill();
+      headline.tween?.kill();
+      headline.revert?.();
+      paragraphs.tween?.scrollTrigger?.kill();
+      paragraphs.tween?.kill();
+    };
   }, []);
 
   return (
-    <section id="S14_CTA" ref={sectionRef} className="relative py-24 md:py-40 text-center overflow-hidden">
-        {image && (
-            <Image 
-                src={image.imageUrl} 
-                alt={image.description} 
-                fill 
-                className="object-cover" 
-                data-ai-hint={image.imageHint}
-            />
-        )}
-        <div className="absolute inset-0 bg-background/80 dark:bg-background/90 backdrop-blur-sm"></div>
+    <section id="S14_CTA" ref={sectionRef} className="relative overflow-hidden py-24">
+      {image && (
+        <Image src={image.imageUrl} alt={image.description} fill className="object-cover" data-ai-hint={image.imageHint} />
+      )}
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm" />
       <div className="container relative z-10">
-        <h2 className="cta-reveal font-headline text-4xl font-bold md:text-6xl">Ready to make the next season easier?</h2>
-        <p className="cta-reveal mt-4 max-w-xl mx-auto text-lg text-foreground/80">
-          Submit your request by role. Our Information Desk routes it properly and confirms delivery with a reference ID.
-        </p>
-        <div className="mt-8">
-            <Button size="lg" className="cta-reveal bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => scrollTo('#S15_BOOKING')}>Book by role</Button>
+        <div className="max-w-2xl">
+          <p className="cta-label text-xs uppercase tracking-[0.4em] text-primary/70">Final step</p>
+          <h2 className="cta-headline mt-4 font-headline text-4xl font-semibold md:text-5xl">
+            Ready to make the next season easier?
+          </h2>
+          <div className="cta-copy mt-4 space-y-3 text-lg text-foreground/80">
+            <p>
+              Submit your request by role. Our Information Desk routes it properly and confirms delivery with a
+              reference ID.
+            </p>
+            <p>Telephone numbers are mandatory so we can confirm next steps quickly.</p>
+          </div>
+          <Button size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => scrollTo('#S15_BOOKING')}>
+            Book by role
+          </Button>
         </div>
       </div>
     </section>

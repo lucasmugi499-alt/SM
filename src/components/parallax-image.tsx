@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
-import { parallaxMedia } from '@/lib/motion';
+import { parallaxMedia } from '@/lib/motion-system';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
@@ -21,21 +21,15 @@ export function ParallaxImage({ src, alt, intensity = 30, className }: ParallaxI
     if (isMobile === false && imgEl) {
       const tween = parallaxMedia(imgEl, intensity);
       return () => {
-        tween?.scrollTrigger?.kill();
-        tween?.kill();
+        tween.tween?.scrollTrigger?.kill();
+        tween.tween?.kill();
       };
     }
   }, [isMobile, intensity, imgEl]);
 
   return (
     <div className={cn('overflow-hidden', className)}>
-      <Image
-        onLoadingComplete={(img) => setImgEl(img)}
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover"
-      />
+      <Image onLoadingComplete={(img) => setImgEl(img)} src={src} alt={alt} fill className="object-cover" />
     </div>
   );
 }

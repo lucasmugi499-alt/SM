@@ -1,6 +1,5 @@
 import { Header } from '@/components/header';
 import { Hero } from '@/components/hero';
-import { ServiceCategories } from '@/components/service-categories';
 import { Footer } from '@/components/footer';
 import { JourneyIndicator } from '@/components/journey-indicator';
 import { PillarsPinned } from '@/components/pillars-pinned';
@@ -25,10 +24,9 @@ export default function Home() {
         <Hero />
         <JourneyIndicator />
         <PillarsPinned />
-        <SparkBento />
         <AgricultureStory />
         <KeyholeSpotlight />
-        <ServiceCategories />
+        <SparkBento />
         <TrainingPathsRail />
         <MentorshipRouting />
         <ConsultancyModules />
