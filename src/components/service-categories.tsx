@@ -52,7 +52,7 @@ export function ServiceCategories() {
             Our Experiential Chapters
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-foreground/70">
-            Scroll through our areas of expertise and discover how we can help you grow.
+            Scroll through our experiential chapters — each one leads to mentorship or booking.
           </p>
         </div>
       </div>

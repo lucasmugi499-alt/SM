@@ -18,51 +18,47 @@ export type Service = {
 export const services: Service[] = [
   {
     title: 'Agricultural Training',
-    description: 'Master modern farming techniques and boost your yield.',
+    description: 'Practical training built for consistency, resilience, and real-world outcomes.',
     icon: Leaf,
   },
   {
     title: 'Business Consultancy',
-    description: 'Expert advice including financial literacy, digital marketing, taxation & returns filing, and creativity & innovation.',
+    description:
+      'Financial literacy, digital marketing, taxation & returns filing, creativity & innovation, and operations support.',
     icon: Briefcase,
   },
   {
     title: 'Mentorship & Coaching',
-    description: 'Connect with experienced mentors for personalized guidance.',
+    description: 'One-on-one and cohort guidance that turns goals into action.',
     icon: Users,
   },
   {
     title: 'Youth Mental Health Support',
-    description: 'Confidential and compassionate support for young minds.',
+    description: 'Respectful, supportive guidance centered on wellbeing.',
     icon: HeartHandshake,
   },
   {
     title: 'Teenage & Adolescent Counseling',
-    description: 'Navigating the challenges of growing up with a trusted guide.',
+    description: 'Supportive conversations focused on growth and decision-making.',
     icon: Smile,
   },
   {
     title: 'Rehabilitation & Substance Addiction Counseling',
-    description: 'A supportive path to recovery and a new beginning.',
+    description: 'Recovery-oriented counseling and support.',
     icon: HeartPulse,
   },
   {
     title: 'Internships & Apprenticeship Attachments',
-    description: 'Gain real-world experience and kickstart your career.',
+    description: 'Structured attachments that build real-world skills and confidence.',
     icon: School,
   },
 ];
 
 export const MENTOR_ROLES = [
-  'Agricultural Expert',
-  'Business Strategist',
-  'Financial Advisor',
-  'Marketing Guru',
-  'Tax Consultant',
-  'Creative Director',
-  'Life Coach',
-  'Mental Health Professional',
-  'Youth Counselor',
-  'Addiction Specialist',
-  'Career Mentor',
+  'Mentor',
+  'Counselor',
+  'Farmer Expert',
+  'Psycho-social Expert',
+  'Business Consultant',
+  'Event Manager',
 ];

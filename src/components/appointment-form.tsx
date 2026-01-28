@@ -86,7 +86,7 @@ export function AppointmentForm() {
             control={form.control}
             name="role"
             render={({ field }) => (
-              <FormItem>
+                <FormItem>
                 <FormLabel>I am looking for a...</FormLabel>
                 <Select
                   onValueChange={field.onChange}
@@ -95,7 +95,7 @@ export function AppointmentForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a mentor type" />
+                      <SelectValue placeholder="Select a role or title" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -131,7 +131,7 @@ export function AppointmentForm() {
                 <FormLabel>Tell us about your needs</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Describe what you're hoping to achieve or discuss..."
+                    placeholder="Describe what you want to achieve or discuss..."
                     className="resize-none"
                     rows={5}
                     {...field}
@@ -150,13 +150,14 @@ export function AppointmentForm() {
       <AlertDialog open={isDialogOpen} onOpenChange={setDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Request Confirmed!</AlertDialogTitle>
+            <AlertDialogTitle>Delivered ✅</AlertDialogTitle>
             <AlertDialogDescription>
-              {formState.message}
+              Your request has been delivered to the Spark Mentorship Information Desk.
               <br />
               <strong className="mt-2 block">
                 Reference ID: {formState.referenceId}
               </strong>
+              We’ll contact you using the phone number you provided.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
