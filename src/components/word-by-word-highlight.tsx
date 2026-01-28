@@ -18,7 +18,11 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
 
   useEffect(() => {
     if (isMobile !== false || !component.current) return;
-    if (prefersReducedMotion()) return;
+    if (prefersReducedMotion()) {
+      // Ensure text is visible even if animations are off
+      if(component.current) component.current.style.opacity = '1';
+      return;
+    };
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -28,7 +32,7 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
       split = new SplitType(component.current!, { types: 'words' });
       const words = split.words;
 
-      if (words && words.length > 0) {
+      if (Array.isArray(words) && words.length > 0) {
         gsap.set(words, {
           color: 'hsl(var(--word-muted))',
           opacity: 0.35,
