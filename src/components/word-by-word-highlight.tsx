@@ -22,42 +22,45 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
 
     gsap.registerPlugin(ScrollTrigger);
 
+    let split: SplitType;
+
     const ctx = gsap.context(() => {
-      const split = new SplitType(component.current!, { types: 'words' });
-      const words = split.words ?? [];
+      split = new SplitType(component.current!, { types: 'words' });
+      const words = split.words;
 
-      if (words.length === 0) {
-        return () => split.revert();
+      if (words && words.length > 0) {
+        gsap.set(words, {
+          color: 'hsl(var(--word-muted))',
+          opacity: 0.35,
+          y: 8,
+        });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: component.current,
+            start: 'top 70%',
+            end: '+=120%',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(words, {
+          color: 'hsl(var(--word-active))',
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: 'none',
+        });
       }
-
-      gsap.set(words, {
-        color: 'hsl(var(--word-muted))',
-        opacity: 0.35,
-        y: 8,
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: component.current,
-          start: 'top 70%',
-          end: '+=120%',
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      tl.to(words, {
-        color: 'hsl(var(--word-active))',
-        opacity: 1,
-        y: 0,
-        stagger: 0.08,
-        ease: 'none',
-      });
-
-      return () => split.revert();
     }, component);
 
-    return () => ctx.revert();
+    return () => {
+      if (split) {
+        split.revert();
+      }
+      ctx.revert();
+    };
   }, [isMobile, text]);
 
   return (
