@@ -1,9 +1,10 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { parallaxMedia } from '@/lib/motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
 interface ParallaxImageProps {
   src: StaticImageData | string;
@@ -14,21 +15,27 @@ interface ParallaxImageProps {
 
 export function ParallaxImage({ src, alt, intensity = 30, className }: ParallaxImageProps) {
   const isMobile = useIsMobile();
-  const imageRef = useRef<HTMLImageElement>(null);
+  const [imgEl, setImgEl] = useState<HTMLImageElement | null>(null);
 
   useLayoutEffect(() => {
-    if (isMobile === false && imageRef.current) {
-      const tween = parallaxMedia(imageRef.current, intensity);
+    if (isMobile === false && imgEl) {
+      const tween = parallaxMedia(imgEl, intensity);
       return () => {
         tween?.scrollTrigger?.kill();
         tween?.kill();
       };
     }
-  }, [isMobile, intensity]);
+  }, [isMobile, intensity, imgEl]);
 
   return (
-    <div className={`overflow-hidden ${className}`}>
-      <Image ref={imageRef} src={src} alt={alt} layout="fill" objectFit="cover" />
+    <div className={cn('overflow-hidden', className)}>
+      <Image
+        onLoadingComplete={(img) => setImgEl(img)}
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+      />
     </div>
   );
 }
