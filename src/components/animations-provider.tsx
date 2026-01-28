@@ -56,7 +56,7 @@ export function AnimationsProvider({ children }: { children: React.ReactNode }) 
 
     ScrollTrigger.defaults({ scroller: scrollElement })
 
-    const handleRefresh = () => lenis.update()
+    const handleRefresh = () => lenis.resize()
     ScrollTrigger.addEventListener('refresh', handleRefresh)
 
     const refreshAll = () => ScrollTrigger.refresh()
