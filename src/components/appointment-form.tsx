@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useEffect, useState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -54,7 +54,7 @@ function SubmitButton() {
 
 export function AppointmentForm() {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [formState, formAction] = useFormState(bookAppointmentAction, {
+  const [formState, formAction] = useActionState(bookAppointmentAction, {
     success: false,
     message: '',
   });
