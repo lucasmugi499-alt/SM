@@ -21,8 +21,10 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
     if (isMobile !== false) return;
   
     const el = component.current;
-    if (!el) return;
+    // Early exit if the element isn't in the DOM
+    if (!el || !el.isConnected) return;
   
+    // Respect reduced motion
     if (prefersReducedMotion()) {
       el.style.opacity = '1';
       return;
@@ -33,19 +35,21 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
     let split: SplitType | null = null;
   
     const ctx = gsap.context(() => {
-      // Capture element inside the context (stable ref)
       const target = component.current;
-      if (!target) return;
-      if (!target.isConnected) return;
+      // Double-check target inside the GSAP context
+      if (!target || !target.isConnected) return;
   
       split = new SplitType(target, { types: 'words' });
   
-      // ✅ HARDEN: Convert to a clean HTMLElement[] (no nulls)
-      const raw = split.words ?? [];
-      const words = raw.filter((w): w is HTMLElement => w instanceof HTMLElement);
-  
-      // If no valid words, bail safely
-      if (!words.length) return;
+      // Paranoid hardening: ensure we have a clean array of actual elements.
+      const words = (split.words || []).filter(
+        (w): w is HTMLElement => w instanceof HTMLElement && w.isConnected
+      );
+      
+      // Final safety check before passing to GSAP
+      if (!words || words.length === 0) {
+        return;
+      }
   
       gsap.set(words, {
         color: 'hsl(var(--word-muted))',
@@ -56,7 +60,7 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
       gsap
         .timeline({
           scrollTrigger: {
-            trigger: target,          // ✅ never null
+            trigger: target,
             start: 'top 70%',
             end: '+=120%',
             scrub: true,
@@ -73,7 +77,6 @@ export function WordByWordHighlight({ text, className }: WordByWordHighlightProp
     }, component);
   
     return () => {
-      // Revert split first, then GSAP context cleanup
       split?.revert();
       ctx.revert();
     };
